@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import useAuthContext from "../contexts/AuthContext";
+import { useAuthContext } from "../contexts";
 import axios from "axios";
 
 const loginSchema = yup.object().shape({
@@ -20,14 +20,15 @@ const loginSchema = yup.object().shape({
 
 const LoginForm = () => {
   const [isSuccessAuth, setSuccessAuth] = useState(true);
-  const { saveToken, token } = useAuthContext();
+  const { saveUser, user } = useAuthContext();
+  const { token } = user;
   const navigate = useNavigate();
 
   const login = async (values) => {
     try {
       const res = await axios.post("/api/v1/login", values);
-      const { token: loginToken } = res.data;
-      saveToken(loginToken);
+      const { token: loginToken, username: loginUsername } = res.data;
+      saveUser(loginToken, loginUsername);
     } catch (e) {
       setSuccessAuth(false);
     }

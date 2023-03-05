@@ -1,31 +1,41 @@
 import React, { useContext, useState, useEffect } from "react";
 
-const getTokenFromLocalStorage = () => localStorage.getItem("userToken");
-const setTokeInLocalStorage = (token) =>
+const getuserFromLocalStorage = () => {
+  const token = localStorage.getItem("userToken");
+  const username = localStorage.getItem("username");
+  return { token, username };
+};
+
+const setUserInLocalStorage = (user) => {
+  const { token, username } = user;
   localStorage.setItem("userToken", token);
+  localStorage.setItem("username", username);
+};
 
 export const AuthContext = React.createContext({});
 const useAuthContext = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(null);
+  const [user, setUser] = useState({ token: "", username: "" });
 
   useEffect(() => {
-    setToken(getTokenFromLocalStorage);
+    setUser(getuserFromLocalStorage);
   }, []);
 
   const getHeaders = () => {
+    const { token } = user;
     if (token) return { Authorization: `Bearer ${token}` };
     return {};
   };
 
-  const saveToken = (loginToken) => {
-    setToken(loginToken);
-    setTokeInLocalStorage(loginToken);
-  }
+  const saveUser = (loginToken, loginUsername) => {
+    const newUser = { token: loginToken, username: loginUsername };
+    setUser(newUser);
+    setUserInLocalStorage(newUser);
+  };
 
   return (
-    <AuthContext.Provider value={{ token, saveToken, getHeaders }}>
+    <AuthContext.Provider value={{ user, saveUser, getHeaders }}>
       {children}
     </AuthContext.Provider>
   );

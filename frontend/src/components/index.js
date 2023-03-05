@@ -1,3 +1,5 @@
 import LoginForm from "./LoginForm";
+import Channels from "./Channels";
+import Messages from "./Messages";
 
-export { LoginForm };
+export { LoginForm, Channels, Messages };
