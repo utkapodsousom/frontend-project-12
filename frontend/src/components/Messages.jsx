@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { v4 as generateId } from 'uuid';
 import { getChannelMessages } from '../slices/messagesSlice';
@@ -11,6 +11,7 @@ const Messages = ({ currentChannel }) => {
   const { sendMessage } = useChatContext();
   const { name, id } = currentChannel;
   const messages = useSelector(getChannelMessages(id));
+  const messageInput = useRef(null);
   console.log(messages);
 
   const handleSubmit = (e) => {
@@ -22,7 +23,9 @@ const Messages = ({ currentChannel }) => {
     });
   };
 
-  useEffect(() => {}, [messages]);
+  useEffect(() => {
+    messageInput.current.focus();
+  }, [messages]);
 
   return (
     <div className="container h-screen pl-[300px] w-full bg-slate-700">
@@ -30,16 +33,23 @@ const Messages = ({ currentChannel }) => {
         <h3>{name}</h3>
         <ul className="chat__window border-2 flex flex-col justify-end border-slate-800 bg-slate-600 rounded-md p-4 text-white flex-grow">
           {messages.length > 0 && messages.map(({ body, username }) => (
-            <li key={generateId()}>
-              <span className="font-bold">
-                {username}
-                :&nbsp;
-              </span>
-              {body}
+            <li className="flex break-words" key={generateId()}>
+              <p className="max-w-[100%]">
+                <span className="font-bold">
+                  {username}
+                  :&nbsp;
+                </span>
+                {body}
+              </p>
             </li>
           ))}
         </ul>
-        <form action="" method="post" noValidate onSubmit={handleSubmit}>
+        <form
+          action=""
+          method="post"
+          noValidate
+          onSubmit={handleSubmit}
+        >
           <div className="chat__input flex justify-center mt-4 border-2 border-slate-800 rounded-md text-white relative overflow-hidden">
             <textarea
               type="text"
@@ -47,6 +57,7 @@ const Messages = ({ currentChannel }) => {
               id="message"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
+              ref={messageInput}
               placeholder="Write something..."
               className="p-2 pr-24 w-full z-10 bg-slate-600 outline-slate-300 resize-none block"
             />

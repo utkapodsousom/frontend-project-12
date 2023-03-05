@@ -24,6 +24,7 @@
             {
                 "props": false
             }
-        ]
+        ],
+        "react/jsx-filename-extension": [1, { "allow": "as-needed" }]
     }
 }
