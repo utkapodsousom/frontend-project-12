@@ -1,5 +1,5 @@
-import { configureStore } from "@reduxjs/toolkit";
-import channelReducer from "./channelsSlice";
+import { configureStore } from '@reduxjs/toolkit';
+import channelReducer from './channelsSlice';
 import messagesReducer from './messagesSlice';
 
 const store = configureStore({

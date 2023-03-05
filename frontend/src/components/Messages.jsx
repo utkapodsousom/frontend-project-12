@@ -1,13 +1,13 @@
-import { getChannelMessages } from "../slices/messagesSlice";
-import { v4 as generateId } from "uuid";
-import { useSelector } from "react-redux";
-import { useAuthContext, useChatContext } from "../contexts";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { v4 as generateId } from 'uuid';
+import { getChannelMessages } from '../slices/messagesSlice';
+import { useAuthContext, useChatContext } from '../contexts';
 
 const Messages = ({ currentChannel }) => {
   const { user } = useAuthContext();
   const [isBlocked, setBlocked] = useState(false);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   const { sendMessage } = useChatContext();
   const { name, id } = currentChannel;
   const messages = useSelector(getChannelMessages(id));
@@ -17,7 +17,7 @@ const Messages = ({ currentChannel }) => {
     e.preventDefault();
     setBlocked(true);
     sendMessage(message, id, user.username, () => {
-      setMessage("");
+      setMessage('');
       setBlocked(false);
     });
   };
@@ -29,13 +29,15 @@ const Messages = ({ currentChannel }) => {
       <div className="chat flex flex-col h-full p-10">
         <h3>{name}</h3>
         <ul className="chat__window border-2 flex flex-col justify-end border-slate-800 bg-slate-600 rounded-md p-4 text-white flex-grow">
-          {messages.length > 0 &&
-            messages.map(({ body, username }) => (
-              <li key={generateId()}>
-                <span className="font-bold">{username}:&nbsp;</span>
-                {body}
-              </li>
-            ))}
+          {messages.length > 0 && messages.map(({ body, username }) => (
+            <li key={generateId()}>
+              <span className="font-bold">
+                {username}
+                :&nbsp;
+              </span>
+              {body}
+            </li>
+          ))}
         </ul>
         <form action="" method="post" noValidate onSubmit={handleSubmit}>
           <div className="chat__input flex justify-center mt-4 border-2 border-slate-800 rounded-md text-white relative overflow-hidden">

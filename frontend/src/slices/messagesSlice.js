@@ -1,10 +1,10 @@
-import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
-import { fetchChatData } from "./channelsSlice";
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import { fetchChatData } from './channelsSlice';
 
 const messagesAdapter = createEntityAdapter();
 
 const messagesSlice = createSlice({
-  name: "channels",
+  name: 'channels',
   initialState: messagesAdapter.getInitialState({}),
   reducers: {
     addMessage: messagesAdapter.addOne,
@@ -17,12 +17,10 @@ const messagesSlice = createSlice({
   },
 });
 
-export const selectors = messagesAdapter.getSelectors(
-  (state) => state.messages
-);
+export const selectors = messagesAdapter.getSelectors((state) => state.messages);
 export const getMessages = (state) => selectors.selectAll(state);
-export const getChannelMessages = (id) => (state) =>
-  getMessages(state).filter(({ channelId }) => id === channelId);
+export const getChannelMessages = (id) => (state) => getMessages(state)
+  .filter(({ channelId }) => id === channelId);
 
 export const { addMessage } = messagesSlice.actions;
 
