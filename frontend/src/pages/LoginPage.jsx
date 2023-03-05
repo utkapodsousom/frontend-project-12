@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuthContext } from "../contexts";
-import { LoginForm } from "../components";
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../contexts';
+import { LoginForm } from '../components';
 
 const LoginPage = () => {
   const { token } = useAuthContext();
@@ -9,7 +9,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
   useEffect(() => {
     if (token) {
-      navigate("/");
+      navigate('/');
     }
   }, [navigate, token]);
 
