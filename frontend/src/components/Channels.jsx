@@ -18,7 +18,7 @@ const Channels = ({ channels, currentChannel }) => {
   };
 
   return (
-    <div className="sidebar fixed top-0 bottom-0 lg:left-0 p-2 w-[300px] overflow-y-auto text-center bg-slate-800">
+    <div className="sidebar fixed top-0 bottom-0 lg:left-0 p-2 w-[250px] overflow-y-auto text-center bg-slate-800">
       <div className="text-gray-100 text-xl">
         <div className="p-2.5 mt-1 flex items-center">
           <h1 className="font-bold text-gray-200 ml-3">Channels</h1>
@@ -41,7 +41,7 @@ const Channels = ({ channels, currentChannel }) => {
             <a
               href={`/${channel.id}`}
               onClick={handleChangeChannel(channel.id)}
-              className="ml-4 text-gray-200 font-bold"
+              className="ml-4 text-gray-200 font-bold flex-grow text-left"
             >
               {`# ${channel.name}`}
             </a>

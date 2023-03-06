@@ -31,19 +31,21 @@ const Messages = ({ currentChannel }) => {
     <div className="container h-screen pl-[300px] w-full bg-slate-700">
       <div className="chat flex flex-col h-full p-10">
         <h3>{name}</h3>
-        <ul className="chat__window border-2 flex flex-col justify-end border-slate-800 bg-slate-600 rounded-md p-4 text-white flex-grow">
-          {messages.length > 0 && messages.map(({ body, username }) => (
-            <li className="flex break-words" key={generateId()}>
-              <p className="max-w-[100%]">
-                <span className="font-bold">
-                  {username}
-                  :&nbsp;
-                </span>
-                {body}
-              </p>
-            </li>
-          ))}
-        </ul>
+        <div className="chat__window border-2 flex flex-grow flex-col justify-end border-slate-800 bg-slate-600 rounded-md p-4 text-white min-h-0">
+          <ul className="flex-grow min-h-0 overflow-y-scroll">
+            {messages.length > 0 && messages.map(({ body, username }) => (
+              <li className="flex break-words" key={generateId()}>
+                <p className="max-w-[100%]">
+                  <span className="font-bold">
+                    {username}
+                    :&nbsp;
+                  </span>
+                  {body}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
         <form
           action=""
           method="post"
