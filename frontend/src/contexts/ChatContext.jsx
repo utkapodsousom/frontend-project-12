@@ -13,9 +13,13 @@ export function ChatProvider({ socket, children }) {
     [socket],
   );
 
+  const createChannel = useCallback((name, cb) => {
+    socket.emit('newChannel', { name }, cb);
+  }, [socket]);
+
   const providerValue = useMemo(
-    () => ({ sendMessage }),
-    [sendMessage],
+    () => ({ sendMessage, createChannel }),
+    [sendMessage, createChannel],
   );
 
   return (
