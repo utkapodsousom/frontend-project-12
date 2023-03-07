@@ -12,7 +12,6 @@ const Messages = ({ currentChannel }) => {
   const { name, id } = currentChannel;
   const messages = useSelector(getChannelMessages(id));
   const messageInput = useRef(null);
-  console.log(messages);
 
   const handleSubmit = (e) => {
     e.preventDefault();

@@ -11,7 +11,6 @@ const ChatPage = () => {
   const dispatch = useDispatch();
   const channels = useSelector(getChannels);
   const currentChannel = useSelector(getCurrentChannel);
-  console.log(currentChannel);
   const navigate = useNavigate();
 
   useEffect(() => {

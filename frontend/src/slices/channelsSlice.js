@@ -9,7 +9,7 @@ export const fetchChatData = createAsyncThunk('channel/fetchChatData', async (he
 
 const channelsAdapter = createEntityAdapter();
 
-const channelSlice = createSlice({
+const channelsSlice = createSlice({
   name: 'channels',
   initialState: channelsAdapter.getInitialState({
     currentChannelId: 1,
@@ -17,27 +17,26 @@ const channelSlice = createSlice({
     loadingError: null,
   }),
   reducers: {
-    changeChannel: (state, { payload }) => {
+    changeCurrentChannel: (state, { payload }) => {
       state.currentChannelId = payload;
     },
     addChannel: channelsAdapter.addOne,
+    deleteChannel: channelsAdapter.removeOne,
+    updateChannel: channelsAdapter.updateOne,
   },
   extraReducers: (builder) => {
-    builder
-      .addCase(fetchChatData.pending, (state) => {
-        state.loadingStatus = 'loading';
-        state.loadingError = null;
-      })
-      .addCase(fetchChatData.fulfilled, (state, { payload }) => {
-        const { channels } = payload;
-        channelsAdapter.setAll(state, channels);
-        state.loadingStatus = 'idle';
-        state.loadingError = null;
-      })
-      .addCase(fetchChatData.rejected, (state, { error }) => {
-        state.loadingStatus = 'failed';
-        state.loadingError = error;
-      });
+    builder.addCase(fetchChatData.pending, (state) => {
+      state.loadingStatus = 'loading';
+      state.loadingError = null;
+    }).addCase(fetchChatData.fulfilled, (state, { payload }) => {
+      const { channels } = payload;
+      channelsAdapter.setAll(state, channels);
+      state.loadingStatus = 'idle';
+      state.loadingError = null;
+    }).addCase(fetchChatData.rejected, (state, { error }) => {
+      state.loadingStatus = 'failed';
+      state.loadingError = error;
+    });
   },
 });
 
@@ -47,6 +46,8 @@ export const getChannelsNames = (state) => getChannels(state).map(({ name }) => 
 export const getCurrentChannel = (state) => getChannels(state)
   .find(({ id }) => id === state.channels.currentChannelId);
 
-export const { changeChannel, addChannel } = channelSlice.actions;
+export const {
+  changeCurrentChannel, addChannel, deleteChannel, updateChannel,
+} = channelsSlice.actions;
 
-export default channelSlice.reducer;
+export default channelsSlice.reducer;

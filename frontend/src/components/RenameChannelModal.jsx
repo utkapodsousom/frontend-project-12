@@ -7,9 +7,9 @@ import { useChatContext } from '../contexts';
 import { getChannelsNames } from '../slices/channelsSlice';
 import channelNameSchema from '../schemas/channelNameSchema';
 
-const AddChannelModal = ({ handleClose }) => {
+const RenameChannelModal = ({ handleClose, channel }) => {
   const [isAlreadyExists, setAlreadyExist] = useState(false);
-  const { createChannel } = useChatContext();
+  const { renameChannel } = useChatContext();
   const channelsNames = useSelector(getChannelsNames);
   const [display, setDisplay] = useState(true);
 
@@ -23,13 +23,16 @@ const AddChannelModal = ({ handleClose }) => {
     return false;
   };
 
-  const onSubmit = (values, formik) => {
-    if (!checkIsInputAlreadyExist(values.name)) {
-      createChannel(values.name, () => {
-        formik.resetForm();
-        setDisplay(false);
-        handleClose();
-      });
+  const onSubmit = async (values) => {
+    try {
+      if (!checkIsInputAlreadyExist(values.name)) {
+        await renameChannel(values.name, channel.id, () => {
+          setDisplay(false);
+          handleClose();
+        });
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -82,7 +85,7 @@ const AddChannelModal = ({ handleClose }) => {
                         as="h3"
                         className="font-bold text-lg"
                       >
-                        Add Channel
+                        Rename Channel
                       </Dialog.Title>
                     </div>
                   </div>
@@ -145,4 +148,4 @@ const AddChannelModal = ({ handleClose }) => {
   );
 };
 
-export default AddChannelModal;
+export default RenameChannelModal;

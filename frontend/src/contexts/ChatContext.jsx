@@ -1,30 +1,45 @@
-import React, {
-  createContext, useCallback, useContext, useMemo,
-} from 'react';
+import React, { useCallback, useContext, useMemo } from 'react';
 
-export const ChatContext = createContext({});
+export const ChatContext = React.createContext({});
 const useChatContext = () => useContext(ChatContext);
-
-export function ChatProvider({ socket, children }) {
+export const ChatProvider = ({ socket, children }) => {
   const sendMessage = useCallback(
     (body, channelId, username, cb) => {
       socket.emit('newMessage', { body, channelId, username }, cb);
     },
     [socket],
   );
+  const createChannel = useCallback(
+    (name, cb) => {
+      socket.emit('newChannel', { name }, cb);
+    },
+    [socket],
+  );
 
-  const createChannel = useCallback((name, cb) => {
-    socket.emit('newChannel', { name }, cb);
-  }, [socket]);
+  const deleteChannel = useCallback(
+    (id, cb) => {
+      socket.emit('removeChannel', { id }, cb);
+    },
+    [socket],
+  );
+
+  const renameChannel = useCallback(
+    (name, id, cb) => {
+      socket.emit('renameChannel', { name, id }, cb);
+    },
+    [socket],
+  );
 
   const providerValue = useMemo(
-    () => ({ sendMessage, createChannel }),
-    [sendMessage, createChannel],
+    () => ({
+      sendMessage,
+      createChannel,
+      deleteChannel,
+      renameChannel,
+    }),
+    [sendMessage, createChannel, deleteChannel, renameChannel],
   );
 
-  return (
-    <ChatContext.Provider value={providerValue}>{children}</ChatContext.Provider>
-  );
-}
-
+  return <ChatContext.Provider value={providerValue}>{children}</ChatContext.Provider>;
+};
 export default useChatContext;
