@@ -22,6 +22,12 @@ const Messages = ({ currentChannel }) => {
     });
   };
 
+  const handleKeypress = (e) => {
+    if (e.keyCode === 13 && e.shiftKey === false) {
+      handleSubmit(e);
+    }
+  };
+
   useEffect(() => {
     messageInput.current.focus();
   }, [messages]);
@@ -58,6 +64,7 @@ const Messages = ({ currentChannel }) => {
               id="message"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
+              onKeyDown={handleKeypress}
               ref={messageInput}
               placeholder="Write something..."
               className="p-2 pr-24 w-full z-10 bg-slate-600 outline-slate-300 resize-none block"
