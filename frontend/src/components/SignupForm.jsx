@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import axios from 'axios';
@@ -6,10 +6,10 @@ import { useAuthContext } from '../contexts/index';
 import signupSchema from '../schemas/signupSchema';
 
 const SignupForm = () => {
-  const [isSuccessSignup, setSuccessSignup] = useState(true);
-  const { saveUser, user } = useAuthContext();
-  const { token } = user;
+  const [signupFailure, setSignupFailure] = useState(null);
+  const { saveUser } = useAuthContext();
   const navigate = useNavigate();
+  const inputRef = useRef(null);
 
   const signup = async (values) => {
     const { username, password } = values;
@@ -17,13 +17,18 @@ const SignupForm = () => {
       const res = await axios.post('/api/v1/signup', { username, password });
       const { token: loginToken, username: loginUsername } = res.data;
       saveUser(loginToken, loginUsername);
+      navigate('/');
     } catch (e) {
-      setSuccessSignup(false);
+      if (e.isAxiosError && e.response?.status === 409) {
+        setSignupFailure('username already in use');
+        throw new Error('username already in use');
+      } else {
+        throw new Error('connection error');
+      }
     }
   };
 
-  const onSubmit = (values) => {
-    console.log(values);
+  const onSubmit = async (values) => {
     signup(values);
   };
 
@@ -34,10 +39,10 @@ const SignupForm = () => {
   });
 
   useEffect(() => {
-    if (token) {
-      navigate('/');
+    if (inputRef.current) {
+      inputRef.current.focus();
     }
-  }, [navigate, token, isSuccessSignup]);
+  }, []);
 
   return (
     <div className="dark:bg-slate-700 max-w-md space-y-8 p-10 rounded-md drop-shadow-lg">
@@ -73,6 +78,11 @@ const SignupForm = () => {
                   {formik.errors.username}
                 </div>
               ) : null}
+              {!!signupFailure && (
+                <div className="absolute peer-invalid:visible text-pink-500 font-medium">
+                  {signupFailure}
+                </div>
+              )}
             </label>
           </div>
           <div className="relative">
