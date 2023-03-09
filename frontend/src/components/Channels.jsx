@@ -40,10 +40,10 @@ const Channels = ({ channels, currentChannel }) => {
   };
   /* eslint-disable */
   return (
-    <div className="sidebar fixed top-0 bottom-0 lg:left-0 p-2 w-[250px] overflow-y-auto text-center bg-slate-800">
+    <div className="sidebar absolute top-0 bottom-0 lg:left-0 p-2 w-[250px] overflow-y-auto text-center bg-slate-800">
       <div className="text-gray-100 text-xl">
         <div className="p-2.5 mt-1 flex items-center">
-          <h1 className="font-bold text-gray-200 ml-3">Channels</h1>
+          <h2 className="font-bold text-lg text-gray-200 ml-3">Channels</h2>
           <button
             type="button"
             onClick={() => setModalParams({ type: 'add' })}

@@ -27,7 +27,7 @@ const Messages = ({ currentChannel }) => {
   }, [messages]);
 
   return (
-    <div className="container h-screen pl-[300px] w-full bg-slate-700">
+    <div className="container h-[100%] pl-[300px] w-full bg-slate-700">
       <div className="chat flex flex-col h-full p-10">
         <h3>{name}</h3>
         <div className="chat__window border-2 flex flex-grow flex-col justify-end border-slate-800 bg-slate-600 rounded-md p-4 text-white min-h-0">
