@@ -20,15 +20,19 @@ const ChatPage = () => {
     }
   }, [navigate, token, getHeaders, dispatch]);
 
-  return (
-    <div className="flex columns-2">
-      <Channels
-        channels={channels}
-        currentChannel={currentChannel}
-      />
-      {channels.length > 0 && <Messages currentChannel={currentChannel} />}
-    </div>
-  );
+  if (token) {
+    return (
+      <div className="flex columns-2">
+        <Channels
+          channels={channels}
+          currentChannel={currentChannel}
+        />
+        {channels.length > 0 && <Messages currentChannel={currentChannel} />}
+      </div>
+    );
+  }
+
+  return <div />;
 };
 
 export default ChatPage;

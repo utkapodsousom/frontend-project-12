@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../contexts';
-import { LoginForm } from '../components';
+import { SignupForm } from '../components';
 
-const LoginPage = () => {
-  const { user } = useAuthContext();
-  const { token } = user;
+const SignupPage = () => {
+  const { token } = useAuthContext();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,7 +16,7 @@ const LoginPage = () => {
   if (!token) {
     return (
       <div className="w-full flex justify-center py-20 bg-slate-600">
-        <LoginForm />
+        <SignupForm />
       </div>
     );
   }
@@ -25,4 +24,4 @@ const LoginPage = () => {
   return <div />;
 };
 
-export default LoginPage;
+export default SignupPage;

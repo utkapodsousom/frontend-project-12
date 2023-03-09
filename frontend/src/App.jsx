@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import ChatPage from './pages/ChatPage';
-import ErrorPage from './pages/ErrorPage';
-import LoginPage from './pages/LoginPage';
+import {
+  ChatPage, LoginPage, SignupPage, ErrorPage,
+} from './pages';
 
 function App() {
   return (
@@ -11,6 +11,10 @@ function App() {
         <Route
           path="/"
           element={<ChatPage />}
+        />
+        <Route
+          path="/signup"
+          element={<SignupPage />}
         />
         <Route
           path="/login"

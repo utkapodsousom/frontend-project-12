@@ -14,11 +14,16 @@ const setUserInLocalStorage = (user) => {
   localStorage.setItem('username', username);
 };
 
+const removeUserInLocalStorage = () => {
+  localStorage.removeItem('userToken');
+  localStorage.removeItem('username');
+};
+
 export const AuthContext = React.createContext({});
 const useAuthContext = () => useContext(AuthContext);
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState({ token: '', username: '' });
+  const [user, setUser] = useState({ token: null, username: null });
 
   useEffect(() => {
     setUser(getuserFromLocalStorage);
@@ -36,8 +41,15 @@ export function AuthProvider({ children }) {
     setUserInLocalStorage(newUser);
   };
 
+  const logout = () => {
+    setUser({ token: null, username: null });
+    removeUserInLocalStorage();
+  };
+
   const providerValue = useMemo(
-    () => ({ user, saveUser, getHeaders }),
+    () => ({
+      user, saveUser, getHeaders, logout,
+    }),
     [user, saveUser, getHeaders],
   );
 
