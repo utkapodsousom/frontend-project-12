@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider as ReduxProvider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
+import filter from 'leo-profanity';
 import App from './App';
 import { AuthProvider } from './contexts/AuthContext';
 import { ChatProvider } from './contexts/ChatContext';
@@ -14,6 +15,11 @@ const init = () => {
   const i18n = initI18n();
   const socket = initSocket();
   const root = ReactDOM.createRoot(document.getElementById('root'));
+
+  filter.clearList();
+  filter.add(filter.getDictionary('en'));
+  filter.add(filter.getDictionary('ru'));
+
   root.render(
     <React.StrictMode>
       <AuthProvider>

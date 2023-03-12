@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { v4 as generateId } from 'uuid';
+import filter from 'leo-profanity';
 import { useTranslation } from 'react-i18next';
 import { getChannelMessages } from '../slices/messagesSlice';
 import { useAuthContext, useChatContext } from '../contexts';
@@ -47,7 +48,7 @@ const Messages = ({ currentChannel }) => {
                     {username}
                     :&nbsp;
                   </span>
-                  {body}
+                  {filter.clean(body)}
                 </p>
               </li>
             ))}
