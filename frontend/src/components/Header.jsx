@@ -1,10 +1,12 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { useAuthContext } from '../contexts';
 
 const Header = () => {
   const { logout, user } = useAuthContext();
   const { token } = user;
+  const { t } = useTranslation();
 
   const handleLogout = (e) => {
     e.preventDefault();
@@ -20,7 +22,7 @@ const Header = () => {
           className="text-sm font-medium text-gray-400 hover:text-gray-200"
           onClick={handleLogout}
         >
-          Log out
+          {t('label.exit')}
         </button>
       );
     }
@@ -29,7 +31,7 @@ const Header = () => {
         href="/login"
         className="text-sm font-medium text-gray-400 hover:text-gray-200"
       >
-        Sign in
+        {t('label.login')}
       </a>
     );
   };
@@ -43,8 +45,8 @@ const Header = () => {
               to="/"
               className="block text-white"
             >
-              <span className="sr-only">Hexlet Chat</span>
-              <h1 className="font-bold text-lg">Hexlet Chat</h1>
+              <span className="sr-only">{t('app.title')}</span>
+              <h1 className="font-bold text-lg">{t('app.title')}</h1>
             </Link>
           </div>
           <div className="ml-auto flex items-center">
@@ -58,7 +60,7 @@ const Header = () => {
                 href="/signup"
                 className="text-sm font-medium text-gray-400 hover:text-gray-200"
               >
-                Create account
+                {t('label.register')}
               </a>
             </div>
           </div>

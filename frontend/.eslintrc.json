@@ -25,6 +25,7 @@
                 "props": false
             }
         ],
-        "react/jsx-filename-extension": [1, { "allow": "as-needed" }]
+        "react/jsx-filename-extension": [1, { "allow": "as-needed" }],
+        "import/no-extraneous-dependencies": 0
     }
 }

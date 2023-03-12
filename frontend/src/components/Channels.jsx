@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { PlusCircleIcon } from '@heroicons/react/20/solid';
+import { useTranslation } from 'react-i18next';
 import { changeCurrentChannel } from '../slices/channelsSlice';
 import AddChannelModal from './AddChannelModal';
 import DeleteChannelModal from './DeleteChannelModal';
@@ -25,6 +26,7 @@ const renderModal = (modalParams, handleClose) => {
 };
 
 const Channels = ({ channels, currentChannel }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
   const [modalParams, setModalParams] = useState({
@@ -43,7 +45,7 @@ const Channels = ({ channels, currentChannel }) => {
     <div className="sidebar absolute top-0 bottom-0 lg:left-0 p-2 w-[250px] overflow-y-auto text-center bg-slate-800">
       <div className="text-gray-100 text-xl">
         <div className="p-2.5 mt-1 flex items-center">
-          <h2 className="font-bold text-lg text-gray-200 ml-3">Channels</h2>
+          <h2 className="font-bold text-lg text-gray-200 ml-3">{t('channels.channels')}</h2>
           <button
             type="button"
             onClick={() => setModalParams({ type: 'add' })}

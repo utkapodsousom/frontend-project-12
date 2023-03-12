@@ -16,7 +16,7 @@ const LoginPage = () => {
 
   if (!token) {
     return (
-      <div className="w-full flex justify-center py-20 bg-slate-600">
+      <div className="h-full w-full items-start flex justify-center py-20 bg-slate-600">
         <LoginForm />
       </div>
     );

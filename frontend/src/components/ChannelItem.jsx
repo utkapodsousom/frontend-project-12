@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-
+import { useTranslation } from 'react-i18next';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { Menu, Transition } from '@headlessui/react';
 
@@ -8,6 +8,7 @@ const ChannelItem = ({
 }) => {
   const { id, name, removable } = channel;
   const { id: currentChannelId } = currentChannel;
+  const { t } = useTranslation();
 
   return (
     <li
@@ -46,7 +47,7 @@ const ChannelItem = ({
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                     onClick={() => setModalParams({ type: 'rename', channel })}
                   >
-                    Rename
+                    {t('modal.rename')}
                   </button>
                 )}
               </Menu.Item>
@@ -59,7 +60,7 @@ const ChannelItem = ({
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                     onClick={() => setModalParams({ type: 'remove', channel })}
                   >
-                    Delete
+                    {t('modal.delete')}
                   </button>
                 )}
               </Menu.Item>

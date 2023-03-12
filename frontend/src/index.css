@@ -14,3 +14,8 @@
 *::-webkit-scrollbar-thumb {
   @apply bg-slate-700 rounded-md;
 }
+
+body {
+  @apply flex;
+  @apply min-h-screen;
+}

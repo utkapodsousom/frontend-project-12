@@ -3,6 +3,7 @@ import { useFormik } from 'formik';
 import { useSelector } from 'react-redux';
 import { XMarkIcon } from '@heroicons/react/20/solid';
 import { Dialog, Transition } from '@headlessui/react';
+import { useTranslation } from 'react-i18next';
 import { useChatContext } from '../contexts';
 import { getChannelsNames } from '../slices/channelsSlice';
 import channelNameSchema from '../schemas/channelNameSchema';
@@ -12,6 +13,7 @@ const AddChannelModal = ({ handleClose }) => {
   const { createChannel } = useChatContext();
   const channelsNames = useSelector(getChannelsNames);
   const [display, setDisplay] = useState(true);
+  const { t } = useTranslation();
 
   const checkIsInputAlreadyExist = (value) => {
     if (channelsNames.includes(value)) {
@@ -82,7 +84,7 @@ const AddChannelModal = ({ handleClose }) => {
                         as="h3"
                         className="font-bold text-lg"
                       >
-                        Add Channel
+                        {t('modal.addChannel')}
                       </Dialog.Title>
                     </div>
                   </div>
@@ -98,13 +100,13 @@ const AddChannelModal = ({ handleClose }) => {
                       htmlFor="name"
                       className="block text-md font-medium text-gray-700 dark:text-white"
                     >
-                      Channel name:
+                      {`${t('channels.name')}:`}
                       <input
                         type="text"
                         className="relative block w-full appearance-none rounded border border-gray-300 px-3 py-2 bg-slate-600 outline-slate-300 placeholder-gray-400 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-md invalid:border-pink-400 invalid:text-pink-500"
                         name="name"
                         id="name"
-                        placeholder="Enter new channel name..."
+                        placeholder={t('form.channelName')}
                         value={formik.values.name}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
@@ -112,11 +114,11 @@ const AddChannelModal = ({ handleClose }) => {
                       />
                       {formik.touched.name && (formik.errors.name || isAlreadyExists) ? (
                         <div className="absolute peer-invalid:visible text-pink-500 font-medium">
-                          {formik.errors.name}
+                          {t(`form.${formik.errors.name}`)}
                         </div>
                       ) : null}
                       {isAlreadyExists && (
-                        <div className="absolute peer-invalid:visible text-pink-500 font-medium">Name already exists</div>
+                        <div className="absolute peer-invalid:visible text-pink-500 font-medium">{t('form.channelNameAlreadyExist')}</div>
                       )}
                     </label>
                     <div className="mt-6">
@@ -124,14 +126,14 @@ const AddChannelModal = ({ handleClose }) => {
                         type="submit"
                         className="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 sm:mr-4 sm:w-auto"
                       >
-                        Add Channel
+                        {t('modal.add')}
                       </button>
                       <button
                         type="button"
                         className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
                         onClick={handleClose}
                       >
-                        Cancel
+                        {t('modal.cancel')}
                       </button>
                     </div>
                   </form>
