@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import { Header } from './components';
 import {
   ChatPage, LoginPage, SignupPage, ErrorPage,
@@ -27,6 +28,7 @@ function App() {
           element={<ErrorPage />}
         />
       </Routes>
+      <ToastContainer />
     </BrowserRouter>
   );
 }

@@ -2,11 +2,13 @@ import React, { Fragment, useState } from 'react';
 import { useFormik } from 'formik';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import { XMarkIcon } from '@heroicons/react/20/solid';
 import { Dialog, Transition } from '@headlessui/react';
 import { useChatContext } from '../contexts';
 import { getChannelsNames } from '../slices/channelsSlice';
 import channelNameSchema from '../schemas/channelNameSchema';
+import toastsParams from '../toastParams';
 
 const RenameChannelModal = ({ handleClose, channel }) => {
   const [isAlreadyExists, setAlreadyExist] = useState(false);
@@ -30,10 +32,12 @@ const RenameChannelModal = ({ handleClose, channel }) => {
       if (!checkIsInputAlreadyExist(values.name)) {
         await renameChannel(values.name, channel.id, () => {
           setDisplay(false);
+          toast.success(t('toastMessage.channelRenamed'), toastsParams.getDefaultParams());
           handleClose();
         });
       }
     } catch (error) {
+      toast.error(t('errors.connection'), toastsParams.getDefaultParams());
       console.log(error);
     }
   };

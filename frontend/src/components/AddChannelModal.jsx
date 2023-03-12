@@ -4,9 +4,11 @@ import { useSelector } from 'react-redux';
 import { XMarkIcon } from '@heroicons/react/20/solid';
 import { Dialog, Transition } from '@headlessui/react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import { useChatContext } from '../contexts';
 import { getChannelsNames } from '../slices/channelsSlice';
 import channelNameSchema from '../schemas/channelNameSchema';
+import toastsParams from '../toastParams';
 
 const AddChannelModal = ({ handleClose }) => {
   const [isAlreadyExists, setAlreadyExist] = useState(false);
@@ -30,6 +32,7 @@ const AddChannelModal = ({ handleClose }) => {
       createChannel(values.name, () => {
         formik.resetForm();
         setDisplay(false);
+        toast.success(t('toastMessage.channelAdded'), toastsParams.getDefaultParams());
         handleClose();
       });
     }

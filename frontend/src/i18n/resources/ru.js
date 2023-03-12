@@ -61,7 +61,12 @@ const ruLocales = {
       nameRequired: 'Необходимо имя',
     },
     errors: {
-      connectionError: 'Ошибка подключения',
+      connection: 'Ошибка подключения',
+    },
+    toastMessage: {
+      channelAdded: 'Канал создан',
+      channelRenamed: 'Канал переименован',
+      channelRemoved: 'Канал удалён',
     },
   },
 };

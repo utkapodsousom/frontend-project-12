@@ -25,7 +25,7 @@ const SignupForm = () => {
         setSignupFailure(t('form.usernameAlreadyExist'));
         throw new Error(t('form.usernameAlreadyExist'));
       } else {
-        throw new Error(t('errors.connectionError'));
+        throw new Error(t('errors.connection'));
       }
     }
   };

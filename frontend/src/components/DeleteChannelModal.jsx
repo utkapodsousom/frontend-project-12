@@ -1,10 +1,12 @@
 import React, { Fragment, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/20/solid';
 import { useChatContext } from '../contexts';
 import { getCurrentChannel, changeCurrentChannel } from '../slices/channelsSlice';
+import toastsParams from '../toastParams';
 
 const DeleteChannelModal = ({ handleClose, channel }) => {
   const { deleteChannel } = useChatContext();
@@ -18,12 +20,14 @@ const DeleteChannelModal = ({ handleClose, channel }) => {
     try {
       await deleteChannel(channel.id, () => {
         setDisplay(false);
+        toast.success(t('toastMessage.channelRemoved'), toastsParams.getDefaultParams());
         handleClose();
         if (id === channel.id) {
           dispatch(changeCurrentChannel(1));
         }
       });
     } catch (error) {
+      toast.error(t('errors.connection'), toastsParams.getDefaultParams());
       console.log(error);
     }
   };
