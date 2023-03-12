@@ -28,7 +28,7 @@ const DeleteChannelModal = ({ handleClose, channel }) => {
       });
     } catch (error) {
       toast.error(t('errors.connection'), toastsParams.getDefaultParams());
-      console.log(error);
+      throw new Error(error);
     }
   };
 

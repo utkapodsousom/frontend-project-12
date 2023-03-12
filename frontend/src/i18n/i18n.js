@@ -13,7 +13,9 @@ const initI18n = () => {
       debug: true,
       resources,
     })
-    .catch((err) => console.error(err));
+    .catch((err) => {
+      throw new Error(err);
+    });
 
   return i18n;
 };
