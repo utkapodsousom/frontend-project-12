@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider as ReduxProvider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
+import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import filter from 'leo-profanity';
 import App from './App';
 import { AuthProvider } from './contexts/AuthContext';
@@ -12,6 +13,11 @@ import initI18n from './i18n/i18n';
 import initSocket from './socket';
 
 const init = () => {
+  const rollbarConfig = {
+    accessToken: process.env.REACT_APP_ROLLBAR_ACCESS_TOKEN,
+    environment: 'testenv',
+  };
+
   const i18n = initI18n();
   const socket = initSocket();
   const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -22,15 +28,19 @@ const init = () => {
 
   root.render(
     <React.StrictMode>
-      <AuthProvider>
-        <ChatProvider socket={socket}>
-          <ReduxProvider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <App />
-            </I18nextProvider>
-          </ReduxProvider>
-        </ChatProvider>
-      </AuthProvider>
+      <RollbarProvider config={rollbarConfig}>
+        <ErrorBoundary>
+          <AuthProvider>
+            <ChatProvider socket={socket}>
+              <ReduxProvider store={store}>
+                <I18nextProvider i18n={i18n}>
+                  <App />
+                </I18nextProvider>
+              </ReduxProvider>
+            </ChatProvider>
+          </AuthProvider>
+        </ErrorBoundary>
+      </RollbarProvider>
     </React.StrictMode>,
   );
 };
