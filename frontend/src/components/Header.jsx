@@ -27,12 +27,24 @@ const Header = () => {
       );
     }
     return (
-      <a
-        href="/login"
-        className="text-sm font-medium text-gray-400 hover:text-gray-200"
-      >
-        {t('label.login')}
-      </a>
+      <>
+        <a
+          href="/login"
+          className="text-sm font-medium text-gray-400 hover:text-gray-200"
+        >
+          {t('label.login')}
+        </a>
+        <span
+          className="h-6 w-px bg-gray-400"
+          aria-hidden="true"
+        />
+        <a
+          href="/signup"
+          className="text-sm font-medium text-gray-400 hover:text-gray-200"
+        >
+          {t('label.register')}
+        </a>
+      </ >
     );
   };
 
@@ -52,16 +64,6 @@ const Header = () => {
           <div className="ml-auto flex items-center">
             <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
               {link()}
-              <span
-                className="h-6 w-px bg-gray-400"
-                aria-hidden="true"
-              />
-              <a
-                href="/signup"
-                className="text-sm font-medium text-gray-400 hover:text-gray-200"
-              >
-                {t('label.register')}
-              </a>
             </div>
           </div>
         </div>

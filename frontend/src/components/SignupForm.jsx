@@ -129,7 +129,6 @@ const SignupForm = () => {
               {formik.touched.passwordConfirm && formik.errors.passwordConfirm ? (
                 <div className="absolute peer-invalid:visible text-pink-500 font-medium">
                   {t(`form.${formik.errors.passwordConfirm}`)}
-                  {console.log(formik.errors)}
                 </div>
               ) : null}
             </label>
