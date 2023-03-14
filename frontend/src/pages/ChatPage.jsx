@@ -22,7 +22,7 @@ const ChatPage = () => {
 
   if (token) {
     return (
-      <div className="flex flex-grow columns-2 relative">
+      <div className="content flex flex-nowrap">
         <Channels
           channels={channels}
           currentChannel={currentChannel}

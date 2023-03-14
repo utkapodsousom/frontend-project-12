@@ -49,10 +49,10 @@ const Header = () => {
   };
 
   return (
-    <header className="header bg-slate-800 relative">
-      <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <header className="header fixed left-0 top-0 w-full bg-slate-800 z-20">
+      <nav className="px-4">
         <div className="flex h-16 items-center">
-          <div className="ml-4 flex lg:ml-0">
+          <div className="flex">
             <Link
               to="/"
               className="block text-white"

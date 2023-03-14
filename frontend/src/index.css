@@ -2,20 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Works on Chrome, Edge, and Safari */
-*::-webkit-scrollbar {
-  @apply w-2;
+.text-break {
+  word-wrap: break-word!important;
+  word-break: break-word!important;
 }
 
-*::-webkit-scrollbar-track {
-  @apply bg-transparent;
+.content {
+  @apply pt-16;
+  height: 100vh;
 }
 
-*::-webkit-scrollbar-thumb {
-  @apply bg-slate-700 rounded-md;
-}
-
-body {
-  @apply flex;
-  @apply min-h-screen;
+.message {
+  @apply mb-2;
 }

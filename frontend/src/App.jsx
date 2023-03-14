@@ -9,26 +9,28 @@ import {
 function App() {
   return (
     <BrowserRouter>
-      <Header />
-      <Routes>
-        <Route
-          path="/"
-          element={<ChatPage />}
-        />
-        <Route
-          path="/signup"
-          element={<SignupPage />}
-        />
-        <Route
-          path="/login"
-          element={<LoginPage />}
-        />
-        <Route
-          path="*"
-          element={<ErrorPage />}
-        />
-      </Routes>
-      <ToastContainer />
+      <div className="flex flex-col h-full relative">
+        <Header />
+        <Routes>
+          <Route
+            path="/"
+            element={<ChatPage />}
+          />
+          <Route
+            path="/signup"
+            element={<SignupPage />}
+          />
+          <Route
+            path="/login"
+            element={<LoginPage />}
+          />
+          <Route
+            path="*"
+            element={<ErrorPage />}
+          />
+        </Routes>
+        <ToastContainer />
+      </div>
     </BrowserRouter>
   );
 }
