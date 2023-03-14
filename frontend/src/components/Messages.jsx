@@ -70,12 +70,13 @@ const Messages = ({ currentChannel }) => {
               onKeyDown={handleKeypress}
               ref={messageInput}
               placeholder={t('messages.newMessage')}
+              disabled={isBlocked}
               className="p-2 pr-24 w-full z-10 bg-slate-600 outline-slate-300 resize-none block"
             />
             <button
               type="submit"
-              disabled={isBlocked}
-              className="absolute z-20 right-4 py-2 px-4 top-1/2 translate-y-[-50%] rounded-md bg-indigo-600 hover:bg-indigo-700"
+              disabled={isBlocked || message.trim() === ''}
+              className="absolute z-20 right-4 py-2 px-4 top-1/2 translate-y-[-50%] rounded-md bg-indigo-600 hover:bg-indigo-700 disabled:opacity-75"
             >
               {t('messages.send')}
             </button>
