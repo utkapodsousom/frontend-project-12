@@ -120,7 +120,7 @@ const SignupForm = () => {
                 className="relative block w-full appearance-none rounded border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-md  invalid:border-pink-400 invalid:text-pink-500"
                 type="password"
                 name="passwordConfirm"
-                placeholder={t('form.passwordConfirmationPlaceholder')}
+                placeholder={t('form.passwordConfirmation')}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.passwordConfirm}
@@ -128,7 +128,8 @@ const SignupForm = () => {
               />
               {formik.touched.passwordConfirm && formik.errors.passwordConfirm ? (
                 <div className="absolute peer-invalid:visible text-pink-500 font-medium">
-                  {t(`form.${formik.errors.passwordConfirmation}`)}
+                  {t(`form.${formik.errors.passwordConfirm}`)}
+                  {console.log(formik.errors)}
                 </div>
               ) : null}
             </label>
@@ -139,7 +140,7 @@ const SignupForm = () => {
             type="submit"
             className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-md font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
-            {t('label.register')}
+            {t('form.signupButton')}
           </button>
         </div>
       </form>
