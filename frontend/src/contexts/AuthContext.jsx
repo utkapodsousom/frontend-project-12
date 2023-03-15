@@ -1,5 +1,5 @@
 import React, {
-  useContext, useState, useEffect, useMemo,
+  useContext, useState, useEffect, useMemo, useCallback,
 } from 'react';
 
 const getuserFromLocalStorage = () => {
@@ -22,24 +22,24 @@ const removeUserInLocalStorage = () => {
 export const AuthContext = React.createContext({});
 const useAuthContext = () => useContext(AuthContext);
 
-export function AuthProvider({ children }) {
+export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState({ token: null, username: null });
 
   useEffect(() => {
     setUser(getuserFromLocalStorage);
   }, []);
 
-  const getHeaders = () => {
+  const getHeaders = useCallback(() => {
     const { token } = user;
     if (token) return { Authorization: `Bearer ${token}` };
     return {};
-  };
+  }, [user]);
 
-  const saveUser = (loginToken, loginUsername) => {
+  const saveUser = useCallback((loginToken, loginUsername) => {
     const newUser = { token: loginToken, username: loginUsername };
     setUser(newUser);
     setUserInLocalStorage(newUser);
-  };
+  }, [user]);
 
   const logout = () => {
     setUser({ token: null, username: null });
@@ -54,6 +54,6 @@ export function AuthProvider({ children }) {
   );
 
   return <AuthContext.Provider value={providerValue}>{children}</AuthContext.Provider>;
-}
+};
 
 export default useAuthContext;
