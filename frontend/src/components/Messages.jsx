@@ -79,6 +79,7 @@ const Messages = ({ currentChannel }) => {
             name="message"
             id="message"
             value={message}
+            aria-label={t('messages.newMessage')}
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={handleKeypress}
             ref={messageInput}
