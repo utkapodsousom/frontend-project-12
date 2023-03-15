@@ -25,8 +25,9 @@ const ChannelItem = ({
       </a>
       {removable ? (
         <Menu as={Fragment}>
-          <Menu.Button>
+          <Menu.Button className="relative">
             <ChevronDownIcon className="w-6 h-6 color-white" />
+            <span className="invisible absolute w-[1px] h-[1px] top-1/2 left-1/2">Управление каналом</span>
           </Menu.Button>
           <Transition
             as={Fragment}
