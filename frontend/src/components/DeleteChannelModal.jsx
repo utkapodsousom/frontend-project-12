@@ -88,7 +88,7 @@ const DeleteChannelModal = ({ handleClose, channel }) => {
                   <div className="mt-0">
                     <button
                       type="button"
-                      className="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 sm:mr-4 sm:w-auto"
+                      className="btn-danger inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 sm:mr-4 sm:w-auto"
                       onClick={handleDelete}
                     >
                       {t('modal.confirm')}
