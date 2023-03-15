@@ -8,8 +8,7 @@
 }
 
 .content {
-  @apply pt-16;
-  height: 100vh;
+  height: calc(100vh - 4rem);
 }
 
 .message {

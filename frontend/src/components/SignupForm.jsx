@@ -143,7 +143,7 @@ const SignupForm = () => {
           </button>
         </div>
       </form>
-      <p className="text-center">
+      <p className="text-center text-white">
         {t('app.haveAccount')}
         &nbsp;
         <a

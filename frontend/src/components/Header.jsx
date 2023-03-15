@@ -49,17 +49,13 @@ const Header = () => {
   };
 
   return (
-    <header className="header fixed left-0 top-0 w-full bg-slate-800 z-20">
+    <header className="header bg-slate-800">
       <nav className="px-4">
         <div className="flex h-16 items-center">
           <div className="flex">
-            <Link
-              to="/"
-              className="block text-white"
-            >
-              <span className="sr-only">{t('app.title')}</span>
-              <h1 className="font-bold text-lg">{t('app.title')}</h1>
-            </Link>
+            <h1 className="font-bold text-lg">
+              <Link to="/" className="block text-white">{t('app.title')}</Link>
+            </h1>
           </div>
           <div className="ml-auto flex items-center">
             <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">

@@ -42,7 +42,7 @@ const Channels = ({ channels, currentChannel }) => {
   };
   /* eslint-disable */
   return (
-    <div className="sidebar shrink-0 p-2 w-60 min-w-min text-center bg-slate-800 h-full">
+    <div className="sidebar shrink-0 p-2 w-60 min-w-min text-center bg-slate-800 h-full overflow-hidden">
       <div className="text-gray-100 text-xl">
         <div className="p-2.5 mt-1 flex items-center">
           <h2 className="font-bold text-lg text-gray-200 ml-3">{t('channels.channels')}</h2>
