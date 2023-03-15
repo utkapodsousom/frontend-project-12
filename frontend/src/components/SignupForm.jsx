@@ -64,10 +64,11 @@ const SignupForm = () => {
               htmlFor="username"
               className="block text-md font-medium text-gray-700 dark:text-white"
             >
-              {`${t('form.username')}:`}
+              {t('form.username')}
               <input
                 className="relative block w-full appearance-none rounded border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-md peer-invalid:border-pink-400 peer-invalid:text-pink-500"
                 type="text"
+                id="username"
                 name="username"
                 placeholder={t('form.usernamePlaceholder')}
                 onChange={formik.handleChange}
@@ -92,10 +93,11 @@ const SignupForm = () => {
               htmlFor="password"
               className="block text-md font-medium text-gray-700 dark:text-white"
             >
-              {`${t('form.password')}:`}
+              {t('form.password')}
               <input
                 className="relative block w-full appearance-none rounded border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-md  invalid:border-pink-400 invalid:text-pink-500"
                 type="password"
+                id="password"
                 name="password"
                 placeholder={t('form.passwordPlaceholder')}
                 onChange={formik.handleChange}
@@ -115,10 +117,11 @@ const SignupForm = () => {
               htmlFor="passwordConfirm"
               className="block text-md font-medium text-gray-700 dark:text-white"
             >
-              {`${t('form.passwordConfirmation')}:`}
+              {t('form.passwordConfirmation')}
               <input
                 className="relative block w-full appearance-none rounded border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-md  invalid:border-pink-400 invalid:text-pink-500"
                 type="password"
+                id="passwordConfirm"
                 name="passwordConfirm"
                 placeholder={t('form.passwordConfirmation')}
                 onChange={formik.handleChange}
