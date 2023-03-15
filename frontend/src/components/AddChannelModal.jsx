@@ -103,7 +103,7 @@ const AddChannelModal = ({ handleClose }) => {
                       htmlFor="name"
                       className="block text-md font-medium text-gray-700 dark:text-white"
                     >
-                      {`${t('channels.name')}:`}
+                      {t('channels.name')}
                       <input
                         type="text"
                         className="relative block w-full appearance-none rounded border border-gray-300 px-3 py-2 bg-slate-600 outline-slate-300 placeholder-gray-400 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-md invalid:border-pink-400 invalid:text-pink-500"
