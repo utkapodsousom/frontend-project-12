@@ -49,10 +49,10 @@ const Channels = ({ channels, currentChannel }) => {
           <button
             type="button"
             onClick={() => setModalParams({ type: 'add' })}
-            className="ml-auto appearance-none p-0 m-0"
+            className="ml-auto appearance-none p-0 m-0 relative"
           >
             <PlusCircleIcon className="h-6 w-6" />
-            <span className="invisible absolute h-0 w-0">+</span>
+            <span className="invisible absolute h-[1px] w-[1px] left-1/2 top-1/2">+</span>
           </button>
         </div>
         <div className="my-2 bg-gray-600 h-[1px]" />
