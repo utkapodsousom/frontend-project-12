@@ -1,41 +1,46 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  useEffect, useRef, useState,
+} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 import { useAuthContext } from '../contexts/index';
 import signupSchema from '../schemas/signupSchema';
+import toastsParams from '../toastParams';
 
 const SignupForm = () => {
-  const [signupFailure, setSignupFailure] = useState(null);
   const { saveUser } = useAuthContext();
   const navigate = useNavigate();
-  const inputRef = useRef(null);
+  const [signupFailure, setSignupFailure] = useState(null);
   const { t } = useTranslation();
+  const inputRef = useRef(null);
 
-  const signup = async (values) => {
+  const onSubmit = async (values, { setSubmitting }) => {
     const { username, password } = values;
     try {
+      setSubmitting(true);
       const res = await axios.post('/api/v1/signup', { username, password });
       const { token: loginToken, username: loginUsername } = res.data;
       saveUser(loginToken, loginUsername);
       navigate('/');
     } catch (e) {
+      setSubmitting(false);
       if (e.isAxiosError && e.response?.status === 409) {
         setSignupFailure(t('form.usernameAlreadyExist'));
-        throw new Error(t('form.usernameAlreadyExist'));
+        throw new Error('name already exists');
       } else {
-        throw new Error(t('errors.connection'));
+        toast.error(t('errors.connection'), toastsParams.getDefaultParams());
       }
+    } finally {
+      inputRef.current.select();
     }
-  };
-
-  const onSubmit = async (values) => {
-    signup(values);
   };
 
   const formik = useFormik({
     initialValues: { username: '', password: '', passwordConfirm: '' },
+    validateOnMount: true,
     validationSchema: signupSchema,
     onSubmit,
   });
@@ -74,15 +79,16 @@ const SignupForm = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.username}
+                ref={inputRef}
                 required
               />
               {formik.touched.username && formik.errors.username ? (
-                <div className="absolute peer-invalid:visible text-pink-500 font-medium">
+                <div className="absolute peer-invalid:visible text-pink-500 font-medium text-sm">
                   {t(`form.${formik.errors.username}`)}
                 </div>
               ) : null}
               {!!signupFailure && (
-                <div className="absolute peer-invalid:visible text-pink-500 font-medium">
+                <div className="absolute peer-invalid:visible text-pink-500 font-medium text-sm">
                   {signupFailure}
                 </div>
               )}
@@ -106,7 +112,7 @@ const SignupForm = () => {
                 required
               />
               {formik.touched.password && formik.errors.password ? (
-                <div className="absolute peer-invalid:visible text-pink-500 font-medium">
+                <div className="absolute peer-invalid:visible text-pink-500 font-medium text-sm">
                   {t(`form.${formik.errors.password}`)}
                 </div>
               ) : null}
@@ -130,7 +136,7 @@ const SignupForm = () => {
                 required
               />
               {formik.touched.passwordConfirm && formik.errors.passwordConfirm ? (
-                <div className="absolute peer-invalid:visible text-pink-500 font-medium">
+                <div className="absolute peer-invalid:visible text-pink-500 font-medium text-sm">
                   {t(`form.${formik.errors.passwordConfirm}`)}
                 </div>
               ) : null}
@@ -140,7 +146,8 @@ const SignupForm = () => {
         <div>
           <button
             type="submit"
-            className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-md font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            disabled={!formik.isValid}
+            className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-md font-medium text-white enabled:hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-75"
           >
             {t('form.signupButton')}
           </button>
