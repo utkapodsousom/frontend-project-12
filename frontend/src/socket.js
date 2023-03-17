@@ -25,7 +25,12 @@ const initSocket = () => {
     socket.on('removeChannel', (payload) => {
       const { id } = payload;
 
-      store.dispatch(changeCurrentChannel(1));
+      const { currentChannelId } = store.getState().channels;
+
+      if (currentChannelId === id) {
+        store.dispatch(changeCurrentChannel(1));
+      }
+
       store.dispatch(deleteChannel(id));
     });
 
