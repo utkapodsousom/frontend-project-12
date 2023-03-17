@@ -17,9 +17,7 @@ const initSocket = () => {
     });
 
     socket.on('newChannel', (payload) => {
-      const { id } = payload;
       store.dispatch(addChannel(payload));
-      store.dispatch(changeCurrentChannel(id));
     });
 
     socket.on('removeChannel', (payload) => {

@@ -1,28 +1,33 @@
 import React, { Fragment, useState } from 'react';
 import { useFormik } from 'formik';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { XMarkIcon } from '@heroicons/react/20/solid';
 import { Dialog, Transition } from '@headlessui/react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { useChatContext } from '../contexts';
-import { getChannelsNames } from '../slices/channelsSlice';
+import { getChannelsNames, addChannel, changeCurrentChannel } from '../slices/channelsSlice';
 import getChannelNameSchema from '../schemas/channelNameSchema';
 import toastsParams from '../toastParams';
 
 const AddChannelModal = ({ handleClose }) => {
   const { createChannel } = useChatContext();
   const channelsNames = useSelector(getChannelsNames);
+  const dispatch = useDispatch();
   const [display, setDisplay] = useState(true);
   const { t } = useTranslation();
 
-  const onSubmit = (values, formik) => {
-    createChannel(values.name, () => {
-      formik.resetForm();
+  const onSubmit = async (values) => {
+    try {
+      const data = await createChannel(values.name);
+      const { id } = data;
+      dispatch(addChannel(data));
+      dispatch(changeCurrentChannel(id));
       setDisplay(false);
       toast.success(t('toastMessage.channelAdded'), toastsParams.getDefaultParams());
-      handleClose();
-    });
+    } catch (error) {
+      toast.error(t('errors.connection'), toastsParams.getDefaultParams());
+    }
   };
 
   const formik = useFormik({
