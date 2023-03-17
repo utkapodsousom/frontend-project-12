@@ -12,12 +12,15 @@ export const ChatProvider = ({ socket, children }) => {
     [socket],
   );
 
-  const sendMessage = useCallback(
-    (body, channelId, username, cb) => {
-      socket.emit('newMessage', { body, channelId, username }, cb);
-    },
-    [socket],
-  );
+  const sendMessage = useCallback((
+    body,
+    channelId,
+    username,
+  ) => makeEmitPromises('newMessage', {
+    body,
+    channelId,
+    username,
+  }), [makeEmitPromises]);
 
   const createChannel = useCallback(
     (name) => makeEmitPromises('newChannel', { name }),
