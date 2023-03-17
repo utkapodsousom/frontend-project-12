@@ -7,42 +7,29 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { useChatContext } from '../contexts';
 import { getChannelsNames } from '../slices/channelsSlice';
-import channelNameSchema from '../schemas/channelNameSchema';
+import getChannelNameSchema from '../schemas/channelNameSchema';
 import toastsParams from '../toastParams';
 
 const AddChannelModal = ({ handleClose }) => {
-  const [isAlreadyExists, setAlreadyExist] = useState(false);
   const { createChannel } = useChatContext();
   const channelsNames = useSelector(getChannelsNames);
   const [display, setDisplay] = useState(true);
   const { t } = useTranslation();
 
-  const checkIsInputAlreadyExist = (value) => {
-    if (channelsNames.includes(value)) {
-      setAlreadyExist(true);
-      return true;
-    }
-
-    setAlreadyExist(false);
-    return false;
-  };
-
   const onSubmit = (values, formik) => {
-    if (!checkIsInputAlreadyExist(values.name)) {
-      createChannel(values.name, () => {
-        formik.resetForm();
-        setDisplay(false);
-        toast.success(t('toastMessage.channelAdded'), toastsParams.getDefaultParams());
-        handleClose();
-      });
-    }
+    createChannel(values.name, () => {
+      formik.resetForm();
+      setDisplay(false);
+      toast.success(t('toastMessage.channelAdded'), toastsParams.getDefaultParams());
+      handleClose();
+    });
   };
 
   const formik = useFormik({
     initialValues: {
       name: '',
     },
-    validationSchema: channelNameSchema,
+    validationSchema: getChannelNameSchema(channelsNames),
     onSubmit,
   });
 
@@ -115,14 +102,11 @@ const AddChannelModal = ({ handleClose }) => {
                         onBlur={formik.handleBlur}
                         required
                       />
-                      {formik.touched.name && (formik.errors.name || isAlreadyExists) ? (
+                      {formik.touched.name && formik.errors.name ? (
                         <div className="absolute peer-invalid:visible text-pink-500 font-medium">
                           {t(`form.${formik.errors.name}`)}
                         </div>
                       ) : null}
-                      {isAlreadyExists && (
-                        <div className="absolute peer-invalid:visible text-pink-500 font-medium">{t('form.channelNameAlreadyExist')}</div>
-                      )}
                     </label>
                     <div className="mt-6">
                       <button
