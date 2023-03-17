@@ -42,8 +42,8 @@ const Channels = ({ channels, currentChannel }) => {
   };
   /* eslint-disable */
   return (
-    <div className="sidebar shrink-0 p-2 w-60 min-w-min text-center bg-slate-800 h-full overflow-hidden">
-      <div className="text-gray-100 text-xl">
+    <div className="sidebar flex flex-col shrink-0 w-60 absolute left-0 top-0 z-20 sm:static min-w-min text-center bg-slate-800 h-full overflow-hidden">
+      <div className="text-gray-100 text-xl p-2">
         <div className="p-2.5 mt-1 flex items-center">
           <h2 className="font-bold text-lg text-gray-200 ml-3">{t('channels.channels')}</h2>
           <button
@@ -57,7 +57,7 @@ const Channels = ({ channels, currentChannel }) => {
         </div>
         <div className="my-2 bg-gray-600 h-[1px]" />
       </div>
-      <ul className="h-full overflow-auto">
+      <ul className="h-full flex flex-col overflow-y-auto overflow-x-hidden p-2">
         {channels &&
           channels.map((channel) => (
             <React.Fragment key={channel.id}>
