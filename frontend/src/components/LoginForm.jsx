@@ -1,48 +1,47 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
 import axios from 'axios';
 import { useAuthContext } from '../contexts/index';
+import toastsParams from '../toastParams';
 
 const LoginForm = () => {
-  const [isSuccessAuth, setSuccessAuth] = useState(true);
-  const { saveUser, user } = useAuthContext();
-  const { token } = user;
+  const [authFailure, setAuthFailure] = useState(null);
+  const [isBlocked, setBlocked] = useState(false);
+  const { saveUser } = useAuthContext();
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const loginInputRef = useRef(null);
 
-  const login = async (values) => {
+  const onSubmit = async (values) => {
+    setBlocked(true);
     try {
       const res = await axios.post('/api/v1/login', values);
       const { token: loginToken, username: loginUsername } = res.data;
       saveUser(loginToken, loginUsername);
+      navigate('/');
     } catch (e) {
-      setSuccessAuth(false);
+      if (e.isAxiosError && e.response?.status === 401) {
+        setAuthFailure(t('form.usernameNotExist'));
+      } else {
+        toast.error(t('error.connection'), toastsParams.getDefaultParams());
+      }
+    } finally {
+      loginInputRef.current.select();
+      setBlocked(false);
     }
-  };
-
-  const onSubmit = (values) => {
-    login(values);
-  };
-
-  const validate = (values) => {
-    if (!values.username || !values.password) return 'usernameNotExist';
-    return null;
   };
 
   const formik = useFormik({
     initialValues: { username: '', password: '' },
-    validate,
-    validateOnMount: true,
     onSubmit,
   });
 
   useEffect(() => {
-    if (token) {
-      navigate('/');
-    }
-  }, [navigate, token, isSuccessAuth]);
+    loginInputRef.current.focus();
+  }, []);
 
   return (
     <div className="dark:bg-slate-700 w-full max-w-md p-10 rounded-md drop-shadow-lg">
@@ -72,6 +71,7 @@ const LoginForm = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.username}
+                ref={loginInputRef}
                 required
               />
             </label>
@@ -107,7 +107,7 @@ const LoginForm = () => {
               {t(`form.${formik.errors.username}`)}
             </span>
           ) : null}
-          {!isSuccessAuth && (
+          {!!authFailure && (
             <span className="peer-invalid:visible text-pink-500 font-medium text-sm mb-2 leading-none text-break">
               {t('form.usernameNotExist')}
             </span>
@@ -116,7 +116,7 @@ const LoginForm = () => {
         <div className="mt-6">
           <button
             type="submit"
-            disabled={!formik.isValid}
+            disabled={isBlocked}
             className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-md font-medium text-white enabled:hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-75"
           >
             {t('label.login')}
