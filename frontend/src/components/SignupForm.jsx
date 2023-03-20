@@ -14,19 +14,19 @@ const SignupForm = () => {
   const { saveUser } = useAuthContext();
   const navigate = useNavigate();
   const [signupFailure, setSignupFailure] = useState(null);
+  const [isBlocked, setBlocked] = useState(false);
   const { t } = useTranslation();
   const inputRef = useRef(null);
 
-  const onSubmit = async (values, { setSubmitting }) => {
+  const onSubmit = async (values) => {
     const { username, password } = values;
     try {
-      setSubmitting(true);
+      setBlocked(true);
       const res = await axios.post('/api/v1/signup', { username, password });
       const { token: loginToken, username: loginUsername } = res.data;
       saveUser(loginToken, loginUsername);
       navigate('/');
     } catch (e) {
-      setSubmitting(false);
       if (e.isAxiosError && e.response?.status === 409) {
         setSignupFailure(t('form.usernameAlreadyExist'));
         throw new Error('name already exists');
@@ -35,12 +35,12 @@ const SignupForm = () => {
       }
     } finally {
       inputRef.current.select();
+      setBlocked(false);
     }
   };
 
   const formik = useFormik({
     initialValues: { username: '', password: '', passwordConfirm: '' },
-    validateOnMount: true,
     validationSchema: signupSchema,
     onSubmit,
   });
@@ -146,7 +146,7 @@ const SignupForm = () => {
         <div>
           <button
             type="submit"
-            disabled={!formik.isValid}
+            disabled={isBlocked}
             className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-md font-medium text-white enabled:hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-75"
           >
             {t('form.signupButton')}
