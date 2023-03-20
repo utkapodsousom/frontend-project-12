@@ -7,7 +7,7 @@ import { XMarkIcon } from '@heroicons/react/20/solid';
 import { Dialog, Transition } from '@headlessui/react';
 import { useChatContext } from '../contexts';
 import { getChannelsNames } from '../slices/channelsSlice';
-import channelNameSchema from '../schemas/channelNameSchema';
+import getChannelNameSchema from '../schemas/channelNameSchema';
 import toastsParams from '../toastParams';
 
 const RenameChannelModal = ({ handleClose, channel }) => {
@@ -46,7 +46,7 @@ const RenameChannelModal = ({ handleClose, channel }) => {
     initialValues: {
       name: '',
     },
-    validationSchema: channelNameSchema,
+    validationSchema: getChannelNameSchema(channelsNames),
     onSubmit,
   });
 
