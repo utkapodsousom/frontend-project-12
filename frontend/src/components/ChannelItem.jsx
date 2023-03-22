@@ -3,31 +3,32 @@ import { useTranslation } from 'react-i18next';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { Menu, Transition } from '@headlessui/react';
 
-const ChannelItem = ({
-  channel, currentChannel, handleChannel, setModalParams,
-}) => {
+/* eslint-disable */
+const ChannelItem = ({ channel, currentChannel, handleChannel, setModalParams }) => {
   const { id, name, removable } = channel;
   const { id: currentChannelId } = currentChannel;
   const { t } = useTranslation();
 
   return (
     <li
-      className={`relative p-2.5 mb-3 flex items-center justify-between rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white ${
+      className={`relative mb-3 flex items-center justify-between rounded-md duration-300 cursor-pointer hover:bg-blue-600 text-white ${
         currentChannelId === id ? 'bg-blue-600' : ''
       }`}
     >
       <a
         href={`/${id}`}
         onClick={handleChannel(id)}
-        className="ml-4 text-gray-200 font-bold text-left"
+        className="flex-1 ml-4 text-left py-2.5 px-4"
       >
-        {`# ${name}`}
+        <span className="text-gray-200 font-bold">{`# ${name}`}</span>
       </a>
       {removable ? (
         <Menu as={Fragment}>
           <Menu.Button className="relative">
             <ChevronDownIcon className="w-6 h-6 color-white" />
-            <span className="invisible absolute w-[1px] h-[1px] top-1/2 left-1/2">Управление каналом</span>
+            <span className="invisible absolute w-[1px] h-[1px] top-1/2 left-1/2">
+              Управление каналом
+            </span>
           </Menu.Button>
           <Transition
             as={Fragment}
