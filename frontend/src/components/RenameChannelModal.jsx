@@ -46,6 +46,7 @@ const RenameChannelModal = ({ handleClose, channel }) => {
     initialValues: {
       name: '',
     },
+    validateOnBlur: false,
     validationSchema: getChannelNameSchema(channelsNames),
     onSubmit,
   });
@@ -95,7 +96,10 @@ const RenameChannelModal = ({ handleClose, channel }) => {
                       </Dialog.Title>
                     </div>
                   </div>
-                  <XMarkIcon className="h-6 w-6 cursor-pointer absolute right-2 top-2 fill-gray-400" onClick={handleClose} />
+                  <XMarkIcon
+                    className="h-6 w-6 cursor-pointer absolute right-2 top-2 fill-gray-400"
+                    onClick={handleClose}
+                  />
                 </div>
                 <div className="bg-slate-600 p-4">
                   <form
@@ -125,7 +129,9 @@ const RenameChannelModal = ({ handleClose, channel }) => {
                         </div>
                       ) : null}
                       {isAlreadyExists && (
-                        <div className="absolute peer-invalid:visible text-pink-500 font-medium">{t('form.channelNameAlreadyExist')}</div>
+                        <div className="absolute peer-invalid:visible text-pink-500 font-medium">
+                          {t('form.channelNameAlreadyExist')}
+                        </div>
                       )}
                     </label>
                     <div className="mt-6">

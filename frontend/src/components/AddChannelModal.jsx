@@ -34,6 +34,7 @@ const AddChannelModal = ({ handleClose }) => {
     initialValues: {
       name: '',
     },
+    validateOnBlur: false,
     validationSchema: getChannelNameSchema(channelsNames),
     onSubmit,
   });
@@ -83,7 +84,10 @@ const AddChannelModal = ({ handleClose }) => {
                       </Dialog.Title>
                     </div>
                   </div>
-                  <XMarkIcon className="h-6 w-6 cursor-pointer absolute right-2 top-2 fill-gray-400" onClick={handleClose} />
+                  <XMarkIcon
+                    className="h-6 w-6 cursor-pointer absolute right-2 top-2 fill-gray-400"
+                    onClick={handleClose}
+                  />
                 </div>
                 <div className="bg-slate-600 p-4">
                   <form
