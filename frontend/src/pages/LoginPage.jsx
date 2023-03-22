@@ -4,8 +4,8 @@ import { useAuthContext } from '../contexts';
 import { LoginForm } from '../components';
 
 const LoginPage = () => {
-  const { user } = useAuthContext();
-  const { token } = user;
+  const { userData } = useAuthContext();
+  const { token } = userData;
   const navigate = useNavigate();
 
   useEffect(() => {

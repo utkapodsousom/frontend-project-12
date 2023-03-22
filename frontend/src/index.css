@@ -2,9 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-.text-break {
-  word-wrap: break-word!important;
-  word-break: break-word!important;
+.text-break.text-break.text-break {
+  word-wrap: break-word;
+  word-break: break-word;
 }
 
 .content {

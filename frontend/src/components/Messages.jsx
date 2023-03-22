@@ -11,7 +11,7 @@ import getMessageSchema from '../schemas/messageSchema';
 import toastsParams from '../toastParams';
 
 const Messages = ({ currentChannel }) => {
-  const { user } = useAuthContext();
+  const { userData } = useAuthContext();
   const [isBlocked, setBlocked] = useState(false);
   const { sendMessage } = useChatContext();
   const { name, id } = currentChannel;
@@ -24,7 +24,7 @@ const Messages = ({ currentChannel }) => {
     const { message } = values;
     setBlocked(true);
     try {
-      await sendMessage(message, id, user.username);
+      await sendMessage(message, id, userData.username);
       resetForm();
     } catch (err) {
       toast.error(t('error.connection'), toastsParams.getDefaultParams());
@@ -46,11 +46,11 @@ const Messages = ({ currentChannel }) => {
   });
 
   useEffect(() => {
-    if (messages.length > 0 && messages.at(-1).username === user.username) {
+    if (messages.length > 0 && messages.at(-1).username === userData.username) {
       scrollToBottom();
     }
     messageInput.current.focus();
-  }, [messages, user]);
+  }, [messages, userData]);
 
   return (
     <div className="chat flex flex-col w-full h-full p-4 bg-slate-700">

@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import { useAuthContext } from '../contexts';
 
 const Header = () => {
-  const { logout, user } = useAuthContext();
-  const { token } = user;
+  const { logout, userData } = useAuthContext();
+  const { token } = userData;
   const { t } = useTranslation();
 
   const handleLogout = (e) => {

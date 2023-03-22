@@ -23,34 +23,34 @@ export const AuthContext = React.createContext({});
 const useAuthContext = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState({ token: null, username: null });
+  const [userData, setUserData] = useState({ token: null, username: null });
 
   useEffect(() => {
-    setUser(getuserFromLocalStorage);
+    setUserData(getuserFromLocalStorage);
   }, []);
 
   const getToken = useCallback(() => {
-    const { token } = user;
+    const { token } = userData;
     if (token) return token;
     return {};
-  }, [user]);
+  }, [userData]);
 
   const saveUser = useCallback((loginToken, loginUsername) => {
     const newUser = { token: loginToken, username: loginUsername };
-    setUser(newUser);
+    setUserData(newUser);
     setUserInLocalStorage(newUser);
-  }, [user]);
+  }, [userData]);
 
   const logout = () => {
-    setUser({ token: null, username: null });
+    setUserData({ token: null, username: null });
     removeUserInLocalStorage();
   };
 
   const providerValue = useMemo(
     () => ({
-      user, saveUser, getToken, logout,
+      userData, saveUser, getToken, logout,
     }),
-    [user, saveUser, getToken],
+    [userData, saveUser, getToken],
   );
 
   return <AuthContext.Provider value={providerValue}>{children}</AuthContext.Provider>;

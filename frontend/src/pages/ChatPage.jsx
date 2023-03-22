@@ -6,8 +6,8 @@ import { fetchChatData, getChannels, getCurrentChannel } from '../slices/channel
 import { Channels, Messages } from '../components/index';
 
 const ChatPage = () => {
-  const { user, getToken } = useAuthContext();
-  const { token } = user;
+  const { userData, getToken } = useAuthContext();
+  const { token } = userData;
   const dispatch = useDispatch();
   const channels = useSelector(getChannels);
   const currentChannel = useSelector(getCurrentChannel);
