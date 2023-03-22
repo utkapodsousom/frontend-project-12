@@ -4,6 +4,8 @@ const ruLocales = {
       title: 'Hexlet Chat',
       enterChat: 'Войти в чат',
       haveAccount: 'Уже есть аккаунт?',
+      notFound: 'Страницы не существует',
+      back: 'Вернуться',
     },
     modal: {
       addChannel: 'Добавить канал',
