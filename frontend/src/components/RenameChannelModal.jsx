@@ -1,4 +1,6 @@
-import React, { Fragment, useState } from 'react';
+import React, {
+  Fragment, useEffect, useRef, useState,
+} from 'react';
 import { useFormik } from 'formik';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -16,6 +18,7 @@ const RenameChannelModal = ({ handleClose, channel }) => {
   const channelsNames = useSelector(getChannelsNames);
   const [display, setDisplay] = useState(true);
   const { t } = useTranslation();
+  const input = useRef(null);
 
   const checkIsInputAlreadyExist = (value) => {
     if (channelsNames.includes(value)) {
@@ -44,12 +47,19 @@ const RenameChannelModal = ({ handleClose, channel }) => {
 
   const formik = useFormik({
     initialValues: {
-      name: '',
+      name: channel.name,
     },
     validateOnBlur: false,
     validationSchema: getChannelNameSchema(channelsNames),
     onSubmit,
   });
+
+  useEffect(() => {
+    if (input.current) {
+      input.current.focus();
+      input.current.select();
+    }
+  }, []);
 
   return (
     <Transition.Root
@@ -121,6 +131,7 @@ const RenameChannelModal = ({ handleClose, channel }) => {
                         value={formik.values.name}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
+                        ref={input}
                         required
                       />
                       {formik.touched.name && (formik.errors.name || isAlreadyExists) ? (
