@@ -3,8 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { Menu, Transition } from '@headlessui/react';
 
-/* eslint-disable */
-const ChannelItem = ({ channel, currentChannel, handleChannel, setModalParams }) => {
+const ChannelItem = ({
+  channel, currentChannel, handleChannel, setModalParams,
+}) => {
   const { id, name, removable } = channel;
   const { id: currentChannelId } = currentChannel;
   const { t } = useTranslation();
