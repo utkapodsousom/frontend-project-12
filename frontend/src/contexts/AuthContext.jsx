@@ -29,9 +29,9 @@ export const AuthProvider = ({ children }) => {
     setUser(getuserFromLocalStorage);
   }, []);
 
-  const getHeaders = useCallback(() => {
+  const getToken = useCallback(() => {
     const { token } = user;
-    if (token) return { Authorization: `Bearer ${token}` };
+    if (token) return token;
     return {};
   }, [user]);
 
@@ -48,9 +48,9 @@ export const AuthProvider = ({ children }) => {
 
   const providerValue = useMemo(
     () => ({
-      user, saveUser, getHeaders, logout,
+      user, saveUser, getToken, logout,
     }),
-    [user, saveUser, getHeaders],
+    [user, saveUser, getToken],
   );
 
   return <AuthContext.Provider value={providerValue}>{children}</AuthContext.Provider>;

@@ -6,7 +6,7 @@ import { fetchChatData, getChannels, getCurrentChannel } from '../slices/channel
 import { Channels, Messages } from '../components/index';
 
 const ChatPage = () => {
-  const { user, getHeaders } = useAuthContext();
+  const { user, getToken } = useAuthContext();
   const { token } = user;
   const dispatch = useDispatch();
   const channels = useSelector(getChannels);
@@ -16,9 +16,9 @@ const ChatPage = () => {
   useEffect(() => {
     if (!token) navigate('/login');
     else {
-      dispatch(fetchChatData(getHeaders()));
+      dispatch(fetchChatData(getToken()));
     }
-  }, [navigate, token, getHeaders, dispatch]);
+  }, [navigate, token, getToken, dispatch]);
 
   if (token) {
     return (

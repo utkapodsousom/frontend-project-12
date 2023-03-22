@@ -2,7 +2,8 @@
 import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-export const fetchChatData = createAsyncThunk('channel/fetchChatData', async (headers) => {
+export const fetchChatData = createAsyncThunk('channel/fetchChatData', async (token) => {
+  const headers = { Authorization: `Bearer ${token}` };
   const response = await axios.get('/api/v1/data', { headers });
   const { data } = response;
   return data;
