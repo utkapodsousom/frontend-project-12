@@ -63,7 +63,7 @@ const SignupForm = () => {
         onSubmit={formik.handleSubmit}
         method="POST"
       >
-        <div className="rounded-md shadow-sm grid grid-cols-1 gap-6">
+        <div className="rounded-md shadow-sm grid grid-cols-1">
           <div className="relative">
             <label
               htmlFor="username"
@@ -83,18 +83,18 @@ const SignupForm = () => {
                 required
               />
               {formik.touched.username && formik.errors.username ? (
-                <div className="absolute peer-invalid:visible text-pink-500 font-medium text-sm">
+                <div className="peer-invalid:visible text-pink-500 font-medium text-sm">
                   {t(`form.${formik.errors.username}`)}
                 </div>
               ) : null}
               {!!signupFailure && (
-                <div className="absolute peer-invalid:visible text-pink-500 font-medium text-sm">
+                <div className="peer-invalid:visible text-pink-500 font-medium text-sm">
                   {signupFailure}
                 </div>
               )}
             </label>
           </div>
-          <div className="relative">
+          <div className="relative mt-3">
             <label
               htmlFor="password"
               className="block text-md font-medium text-gray-700 dark:text-white"
@@ -112,13 +112,13 @@ const SignupForm = () => {
                 required
               />
               {formik.touched.password && formik.errors.password ? (
-                <div className="absolute peer-invalid:visible text-pink-500 font-medium text-sm">
+                <div className="peer-invalid:visible text-pink-500 font-medium text-sm">
                   {t(`form.${formik.errors.password}`)}
                 </div>
               ) : null}
             </label>
           </div>
-          <div className="relative">
+          <div className="relative mt-3">
             <label
               htmlFor="passwordConfirm"
               className="block text-md font-medium text-gray-700 dark:text-white"
@@ -136,7 +136,7 @@ const SignupForm = () => {
                 required
               />
               {formik.touched.passwordConfirm && formik.errors.passwordConfirm ? (
-                <div className="absolute peer-invalid:visible text-pink-500 font-medium text-sm">
+                <div className="peer-invalid:visible text-pink-500 font-medium text-sm">
                   {t(`form.${formik.errors.passwordConfirm}`)}
                 </div>
               ) : null}
