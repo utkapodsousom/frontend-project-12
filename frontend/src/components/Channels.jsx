@@ -42,7 +42,7 @@ const Channels = ({ channels, currentChannel }) => {
   };
 
   return (
-    <div className="sidebar flex flex-col shrink-0 w-60 absolute left-0 top-0 z-20 sm:static min-w-min text-center bg-slate-800 h-full overflow-hidden">
+    <div className="sidebar flex flex-col shrink-0 w-60 absolute left-0 top-0 z-10 sm:static min-w-min text-center bg-slate-800 h-full overflow-hidden">
       <div className="text-gray-100 text-xl p-2">
         <div className="p-2.5 mt-1 flex items-center">
           <h2 className="font-bold text-lg text-gray-200 ml-3">{t('channels.channels')}</h2>
