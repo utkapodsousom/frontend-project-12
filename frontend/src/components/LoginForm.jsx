@@ -6,6 +6,7 @@ import { useFormik } from 'formik';
 import axios from 'axios';
 import { useAuthContext } from '../contexts/index';
 import toastsParams from '../toastParams';
+import loginSchema from '../schemas/loginSchema';
 
 const LoginForm = () => {
   const [authFailure, setAuthFailure] = useState(null);
@@ -36,6 +37,7 @@ const LoginForm = () => {
 
   const formik = useFormik({
     initialValues: { username: '', password: '' },
+    validationSchema: loginSchema,
     onSubmit,
   });
 
@@ -72,11 +74,15 @@ const LoginForm = () => {
                 onBlur={formik.handleBlur}
                 value={formik.values.username}
                 ref={loginInputRef}
-                required
               />
+              {formik.touched.username && formik.errors.username ? (
+                <div className="peer-invalid:visible text-pink-500 font-medium text-sm">
+                  {t(`form.${formik.errors.username}`)}
+                </div>
+              ) : null}
             </label>
           </div>
-          <div className="relative mt-6">
+          <div className="relative mt-3">
             <label
               htmlFor="password"
               className="block text-md font-medium text-gray-700 dark:text-white"
@@ -91,10 +97,9 @@ const LoginForm = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.password}
-                required
               />
               {formik.touched.password && formik.errors.password ? (
-                <div className="absolute peer-invalid:visible text-pink-500 font-medium text-sm">
+                <div className="peer-invalid:visible text-pink-500 font-medium text-sm">
                   {t(`form.${formik.errors.password}`)}
                 </div>
               ) : null}
@@ -102,11 +107,6 @@ const LoginForm = () => {
           </div>
         </div>
         <div className="w-full text-break">
-          {formik.touched.username && formik.errors.username ? (
-            <span className="peer-invalid:visible text-pink-500 font-medium text-sm mb-2 leading-none text-break">
-              {t(`form.${formik.errors.username}`)}
-            </span>
-          ) : null}
           {!!authFailure && (
             <span className="peer-invalid:visible text-pink-500 font-medium text-sm mb-2 leading-none text-break">
               {t('form.usernameNotExist')}
