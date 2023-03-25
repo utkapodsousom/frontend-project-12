@@ -5,6 +5,7 @@ import { Header } from './components';
 import {
   ChatPage, LoginPage, SignupPage, ErrorPage,
 } from './pages';
+import PrivateRoute from './routes/PrivateRoute';
 import routes from './routes/routes';
 
 const App = () => (
@@ -14,7 +15,11 @@ const App = () => (
       <Routes>
         <Route
           path={routes.pages.chat()}
-          element={<ChatPage />}
+          element={(
+            <PrivateRoute>
+              <ChatPage />
+            </PrivateRoute>
+            )}
         />
         <Route
           path={routes.pages.signup()}
