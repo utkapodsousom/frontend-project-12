@@ -2,9 +2,11 @@
 import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+import routes from '../routes/routes';
+
 export const fetchChatData = createAsyncThunk('channel/fetchChatData', async (token) => {
   const headers = { Authorization: `Bearer ${token}` };
-  const response = await axios.get('/api/v1/data', { headers });
+  const response = await axios.get(routes.api.data(), { headers });
   const { data } = response;
   return data;
 });

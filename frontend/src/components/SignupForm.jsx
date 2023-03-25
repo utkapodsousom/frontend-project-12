@@ -6,9 +6,11 @@ import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+
 import { useAuthContext } from '../contexts/index';
 import signupSchema from '../schemas/signupSchema';
 import toastsParams from '../toastParams';
+import routes from '../routes/routes';
 
 const SignupForm = () => {
   const { saveUser } = useAuthContext();
@@ -22,7 +24,7 @@ const SignupForm = () => {
     const { username, password } = values;
     try {
       setBlocked(true);
-      const res = await axios.post('/api/v1/signup', { username, password });
+      const res = await axios.post(routes.api.signup(), { username, password });
       const { token: loginToken, username: loginUsername } = res.data;
       saveUser(loginToken, loginUsername);
       navigate('/');

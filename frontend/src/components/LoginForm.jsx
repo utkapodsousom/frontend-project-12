@@ -4,9 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
 import axios from 'axios';
+
 import { useAuthContext } from '../contexts/index';
 import toastsParams from '../toastParams';
 import loginSchema from '../schemas/loginSchema';
+import routes from '../routes/routes';
 
 const LoginForm = () => {
   const [authFailure, setAuthFailure] = useState(null);
@@ -19,7 +21,7 @@ const LoginForm = () => {
   const onSubmit = async (values) => {
     setBlocked(true);
     try {
-      const res = await axios.post('/api/v1/login', values);
+      const res = await axios.post(routes.api.login(), values);
       const { token: loginToken, username: loginUsername } = res.data;
       saveUser(loginToken, loginUsername);
       navigate('/');

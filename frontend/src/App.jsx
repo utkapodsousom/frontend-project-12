@@ -5,6 +5,7 @@ import { Header } from './components';
 import {
   ChatPage, LoginPage, SignupPage, ErrorPage,
 } from './pages';
+import routes from './routes/routes';
 
 const App = () => (
   <BrowserRouter>
@@ -12,15 +13,15 @@ const App = () => (
       <Header />
       <Routes>
         <Route
-          path="/"
+          path={routes.pages.chat()}
           element={<ChatPage />}
         />
         <Route
-          path="/signup"
+          path={routes.pages.signup()}
           element={<SignupPage />}
         />
         <Route
-          path="/login"
+          path={routes.pages.login()}
           element={<LoginPage />}
         />
         <Route
