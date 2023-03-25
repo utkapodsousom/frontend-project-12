@@ -1,27 +1,10 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuthContext } from '../contexts';
+import React from 'react';
 import { SignupForm } from '../components';
 
-const SignupPage = () => {
-  const { token } = useAuthContext();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (token) {
-      navigate('/');
-    }
-  }, [navigate, token]);
-
-  if (!token) {
-    return (
-      <div className="w-full flex items-start justify-center py-20 bg-slate-600">
-        <SignupForm />
-      </div>
-    );
-  }
-
-  return <div />;
-};
+const SignupPage = () => (
+  <div className="w-full flex items-start justify-center py-20 bg-slate-600">
+    <SignupForm />
+  </div>
+);
 
 export default SignupPage;
