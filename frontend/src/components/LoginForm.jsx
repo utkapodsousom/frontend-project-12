@@ -13,7 +13,7 @@ import routes from '../routes/routes';
 const LoginForm = () => {
   const [authFailure, setAuthFailure] = useState(null);
   const [isBlocked, setBlocked] = useState(false);
-  const { saveUser } = useAuthContext();
+  const { login } = useAuthContext();
   const navigate = useNavigate();
   const { t } = useTranslation();
   const loginInputRef = useRef(null);
@@ -22,8 +22,7 @@ const LoginForm = () => {
     setBlocked(true);
     try {
       const res = await axios.post(routes.api.login(), values);
-      const { token: loginToken, username: loginUsername } = res.data;
-      saveUser(loginToken, loginUsername);
+      login(res.data);
       navigate('/');
     } catch (e) {
       if (e.isAxiosError && e.response?.status === 401) {

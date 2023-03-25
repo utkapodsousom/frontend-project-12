@@ -1,6 +1,11 @@
 import React, {
-  useContext, useState, useEffect, useMemo, useCallback,
+  useContext, useState, useMemo, useCallback,
 } from 'react';
+
+const generateEmptyUser = () => ({
+  username: null,
+  token: null,
+});
 
 const getuserFromLocalStorage = () => {
   const token = localStorage.getItem('userToken');
@@ -14,20 +19,11 @@ const setUserInLocalStorage = (user) => {
   localStorage.setItem('username', username);
 };
 
-const removeUserInLocalStorage = () => {
-  localStorage.removeItem('userToken');
-  localStorage.removeItem('username');
-};
-
 export const AuthContext = React.createContext({});
 const useAuthContext = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
-  const [userData, setUserData] = useState({ token: null, username: null });
-
-  useEffect(() => {
-    setUserData(getuserFromLocalStorage);
-  }, []);
+  const [userData, setUserData] = useState(getuserFromLocalStorage());
 
   const getToken = useCallback(() => {
     const { token } = userData;
@@ -35,22 +31,22 @@ export const AuthProvider = ({ children }) => {
     return {};
   }, [userData]);
 
-  const saveUser = useCallback((loginToken, loginUsername) => {
-    const newUser = { token: loginToken, username: loginUsername };
-    setUserData(newUser);
-    setUserInLocalStorage(newUser);
-  }, [userData]);
+  const login = (data) => {
+    setUserData(data);
+    setUserInLocalStorage(data);
+  };
 
   const logout = () => {
-    setUserData({ token: null, username: null });
-    removeUserInLocalStorage();
+    const emptyUser = generateEmptyUser();
+    setUserData(emptyUser);
+    setUserInLocalStorage(emptyUser);
   };
 
   const providerValue = useMemo(
     () => ({
-      userData, saveUser, getToken, logout,
+      userData, getToken, logout, login,
     }),
-    [userData, saveUser, getToken],
+    [userData, getToken],
   );
 
   return <AuthContext.Provider value={providerValue}>{children}</AuthContext.Provider>;
