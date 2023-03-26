@@ -23,6 +23,7 @@ const AddChannelModal = ({ handleClose }) => {
       const { id } = data;
       dispatch(addChannel(data));
       dispatch(changeCurrentChannel(id));
+      handleClose();
       setDisplay(false);
       toast.success(t('toastMessage.channelAdded'), toastsParams.getDefaultParams());
     } catch (error) {
