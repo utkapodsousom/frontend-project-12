@@ -19,13 +19,13 @@ const ChannelItem = ({
       <a
         href={`/${id}`}
         onClick={handleChannel(id)}
-        className="flex-1 ml-4 text-left py-2.5 px-4"
+        className="flex-1 text-left py-2.5 px-4 text-gray-200 font-bold truncate"
       >
-        <span className="text-gray-200 font-bold">{`# ${name}`}</span>
+        {`# ${name}`}
       </a>
       {removable ? (
         <Menu as={Fragment}>
-          <Menu.Button className="relative">
+          <Menu.Button className="relative whitespace-nowrap">
             <ChevronDownIcon className="w-6 h-6 color-white" />
             <span className="invisible absolute w-[1px] h-[1px] top-1/2 left-1/2">
               Управление каналом
