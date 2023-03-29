@@ -20,6 +20,7 @@ const setUserInLocalStorage = (user) => {
 };
 
 export const AuthContext = React.createContext({});
+
 const useAuthContext = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {

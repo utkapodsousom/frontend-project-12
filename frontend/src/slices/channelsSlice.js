@@ -4,11 +4,15 @@ import axios from 'axios';
 
 import routes from '../routes/routes';
 
-export const fetchChatData = createAsyncThunk('channel/fetchChatData', async (token) => {
-  const headers = { Authorization: `Bearer ${token}` };
-  const response = await axios.get(routes.api.data(), { headers });
-  const { data } = response;
-  return data;
+export const fetchChatData = createAsyncThunk('channel/fetchChatData', async (token, { rejectWithValue }) => {
+  try {
+    const headers = { Authorization: `Bearer ${token}` };
+    const response = await axios.get(routes.api.data(), { headers });
+    const { data } = response;
+    return data;
+  } catch (e) {
+    return rejectWithValue({ name: e.name, statusCode: e?.response?.status });
+  }
 });
 
 const channelsAdapter = createEntityAdapter();
@@ -29,6 +33,10 @@ const channelsSlice = createSlice({
     },
     deleteChannel: channelsAdapter.removeOne,
     updateChannel: channelsAdapter.updateOne,
+    resetLoadingState: (state) => {
+      state.loadingStatus = 'idle';
+      state.loadingError = null;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchChatData.pending, (state) => {
@@ -51,9 +59,11 @@ export const getChannels = (state) => selectors.selectAll(state);
 export const getChannelsNames = (state) => getChannels(state).map(({ name }) => name);
 export const getCurrentChannel = (state) => getChannels(state)
   .find(({ id }) => id === state.channels.currentChannelId);
+export const getLoadingStatus = (state) => state.channels.loadingStatus;
+export const getLoadingError = (state) => state.channels.loadingError;
 
 export const {
-  changeCurrentChannel, addChannel, deleteChannel, updateChannel,
+  changeCurrentChannel, addChannel, deleteChannel, updateChannel, resetLoadingState,
 } = channelsSlice.actions;
 
 export default channelsSlice.reducer;

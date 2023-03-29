@@ -1,8 +1,11 @@
-import React, { useCallback, useContext, useMemo } from 'react';
+import React, {
+  useCallback, useContext, useMemo, useState,
+} from 'react';
 
 export const ChatContext = React.createContext({});
 const useChatContext = () => useContext(ChatContext);
 export const ChatProvider = ({ socket, children }) => {
+  const [socketConnection, setSocketConnection] = useState(false);
   const makeEmitPromises = useCallback(
     (event, arg) => new Promise((resolve, reject) => {
       socket
@@ -11,6 +14,14 @@ export const ChatProvider = ({ socket, children }) => {
     }),
     [socket],
   );
+
+  socket.on('connect', () => {
+    setSocketConnection(true);
+  });
+
+  socket.on('disconnect', () => {
+    setSocketConnection(false);
+  });
 
   const sendMessage = useCallback((
     body,
@@ -47,8 +58,9 @@ export const ChatProvider = ({ socket, children }) => {
       createChannel,
       deleteChannel,
       renameChannel,
+      socketConnection,
     }),
-    [sendMessage, createChannel, deleteChannel, renameChannel],
+    [sendMessage, createChannel, deleteChannel, renameChannel, socketConnection],
   );
 
   return <ChatContext.Provider value={providerValue}>{children}</ChatContext.Provider>;

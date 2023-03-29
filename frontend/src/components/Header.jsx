@@ -1,7 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+
 import { useAuthContext } from '../contexts';
+import routes from '../routes/routes';
 
 const Header = () => {
   const { logout, userData } = useAuthContext();
@@ -29,7 +31,7 @@ const Header = () => {
     return (
       <>
         <a
-          href="/login"
+          href={routes.pages.login()}
           className="text-sm font-medium text-gray-400 hover:text-gray-200"
         >
           {t('label.login')}
@@ -39,7 +41,7 @@ const Header = () => {
           aria-hidden="true"
         />
         <a
-          href="/signup"
+          href={routes.pages.signup()}
           className="text-sm font-medium text-gray-400 hover:text-gray-200"
         >
           {t('label.register')}
@@ -54,7 +56,7 @@ const Header = () => {
         <div className="flex h-16 items-center">
           <div className="flex">
             <h1 className="font-bold text-lg">
-              <Link to="/" className="block text-white">{t('app.title')}</Link>
+              <Link to={routes.pages.chat()} className="block text-white">{t('app.title')}</Link>
             </h1>
           </div>
           <div className="ml-auto flex items-center">

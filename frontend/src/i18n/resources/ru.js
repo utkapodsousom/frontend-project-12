@@ -62,6 +62,7 @@ const ruLocales = {
       signupButton: 'Зарегистрироваться',
     },
     errors: {
+      login: 'Попробуйте войти ещё раз',
       connection: 'Ошибка соединения',
     },
     toastMessage: {

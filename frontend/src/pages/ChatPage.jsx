@@ -1,23 +1,43 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { useAuthContext } from '../contexts';
-import { fetchChatData, getChannels, getCurrentChannel } from '../slices/channelsSlice';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
+
+import { useAuthContext, useChatContext } from '../contexts';
+import {
+  fetchChatData, getChannels, getCurrentChannel, getLoadingError, resetLoadingState,
+} from '../slices/channelsSlice';
 import { Channels, Messages } from '../components/index';
 import getModal from '../components/modals/index';
+import toastsParams from '../toastParams';
 
 const ChatPage = () => {
-  const { userData, getToken } = useAuthContext();
+  const { t } = useTranslation();
+  const { userData, getToken, logout } = useAuthContext();
   const { token } = userData;
   const dispatch = useDispatch();
   const channels = useSelector(getChannels);
   const currentChannel = useSelector(getCurrentChannel);
-  const navigate = useNavigate();
+  const loadingError = useSelector(getLoadingError);
+  const { socketConnection } = useChatContext();
   const { show, type, channel } = useSelector((state) => state.modals);
 
   useEffect(() => {
     dispatch(fetchChatData(getToken()));
-  }, [navigate, token, getToken, dispatch]);
+  }, [socketConnection, getToken, dispatch]);
+
+  useEffect(() => {
+    if (loadingError) {
+      if (loadingError.statusCode === 401) {
+        toast.warn(t('errors.login'), toastsParams.getDefaultParams());
+        logout();
+      } else {
+        toast.error(t('errors.connection'), toastsParams.getDefaultParams());
+      }
+    }
+  }, [loadingError, logout, t, dispatch]);
+
+  useEffect(() => () => dispatch(resetLoadingState()), [dispatch]);
 
   const renderModal = (status, option) => {
     if (!status) {
