@@ -13,20 +13,16 @@ import toastsParams from '../toastParams';
 import routes from '../routes/routes';
 
 const SignupForm = () => {
-  const { saveUser } = useAuthContext();
+  const { login } = useAuthContext();
   const navigate = useNavigate();
   const [signupFailure, setSignupFailure] = useState(null);
-  const [isBlocked, setBlocked] = useState(false);
   const { t } = useTranslation();
   const inputRef = useRef(null);
 
   const onSubmit = async (values) => {
-    const { username, password } = values;
     try {
-      setBlocked(true);
-      const res = await axios.post(routes.api.signup(), { username, password });
-      const { token: loginToken, username: loginUsername } = res.data;
-      saveUser(loginToken, loginUsername);
+      const res = await axios.post(routes.api.signup(), values);
+      login(res.data);
       navigate('/');
     } catch (e) {
       if (e.isAxiosError && e.response?.status === 409) {
@@ -37,7 +33,6 @@ const SignupForm = () => {
       }
     } finally {
       inputRef.current.select();
-      setBlocked(false);
     }
   };
 
@@ -148,7 +143,7 @@ const SignupForm = () => {
         <div>
           <button
             type="submit"
-            disabled={isBlocked}
+            disabled={formik.isSubmitting}
             className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-md font-medium text-white enabled:hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-75"
           >
             {t('form.signupButton')}
