@@ -2,10 +2,14 @@ import React, { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { Menu, Transition } from '@headlessui/react';
+import { useDispatch } from 'react-redux';
+
+import { actions as modalActions } from '../slices/modalsSlice';
 
 const ChannelItem = ({
-  channel, currentChannel, handleChannel, setModalParams,
+  channel, currentChannel, handleChannel,
 }) => {
+  const dispatch = useDispatch();
   const { id, name, removable } = channel;
   const { id: currentChannelId } = currentChannel;
   const { t } = useTranslation();
@@ -48,7 +52,7 @@ const ChannelItem = ({
                     className={`${
                       active ? 'bg-violet-500 text-white' : 'text-gray-900'
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                    onClick={() => setModalParams({ type: 'rename', channel })}
+                    onClick={() => dispatch(modalActions.openModal({ type: 'renameChannel', channel }))}
                   >
                     {t('modal.rename')}
                   </button>
@@ -61,7 +65,7 @@ const ChannelItem = ({
                     className={`${
                       active ? 'bg-violet-500 text-white' : 'text-gray-900'
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                    onClick={() => setModalParams({ type: 'remove', channel })}
+                    onClick={() => dispatch(modalActions.openModal({ type: 'deleteChannel', channel }))}
                   >
                     {t('modal.delete')}
                   </button>

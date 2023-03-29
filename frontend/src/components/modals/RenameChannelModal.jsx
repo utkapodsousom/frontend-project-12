@@ -1,48 +1,73 @@
-import React, { Fragment, useState } from 'react';
+import React, {
+  Fragment, useEffect, useRef, useState,
+} from 'react';
 import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
-import { XMarkIcon } from '@heroicons/react/20/solid';
-import { Dialog, Transition } from '@headlessui/react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import { useChatContext } from '../contexts';
-import { getChannelsNames, addChannel, changeCurrentChannel } from '../slices/channelsSlice';
-import getChannelNameSchema from '../schemas/channelNameSchema';
-import toastsParams from '../toastParams';
+import { XMarkIcon } from '@heroicons/react/20/solid';
+import { Dialog, Transition } from '@headlessui/react';
+import { useChatContext } from '../../contexts';
+import { getChannelsNames } from '../../slices/channelsSlice';
+import getChannelNameSchema from '../../schemas/channelNameSchema';
+import { actions as modalActions } from '../../slices/modalsSlice';
+import toastsParams from '../../toastParams';
 
-const AddChannelModal = ({ handleClose }) => {
-  const { createChannel } = useChatContext();
+const RenameChannelModal = ({ channel }) => {
+  const [isAlreadyExists, setAlreadyExist] = useState(false);
+  const { renameChannel } = useChatContext();
   const channelsNames = useSelector(getChannelsNames);
   const dispatch = useDispatch();
-  const [display, setDisplay] = useState(true);
   const { t } = useTranslation();
+  const input = useRef(null);
+
+  const checkIsInputAlreadyExist = (value) => {
+    if (channelsNames.includes(value)) {
+      setAlreadyExist(true);
+      return true;
+    }
+
+    setAlreadyExist(false);
+    return false;
+  };
+
+  const handleClose = () => {
+    dispatch(modalActions.closeModal());
+  };
 
   const onSubmit = async (values) => {
     try {
-      const data = await createChannel(values.name);
-      const { id } = data;
-      dispatch(addChannel(data));
-      dispatch(changeCurrentChannel(id));
-      handleClose();
-      setDisplay(false);
-      toast.success(t('toastMessage.channelAdded'), toastsParams.getDefaultParams());
+      if (!checkIsInputAlreadyExist(values.name)) {
+        await renameChannel(values.name, channel.id, () => {
+          toast.success(t('toastMessage.channelRenamed'), toastsParams.getDefaultParams());
+          handleClose();
+        });
+      }
     } catch (error) {
       toast.error(t('errors.connection'), toastsParams.getDefaultParams());
+      throw new Error(error);
     }
   };
 
   const formik = useFormik({
     initialValues: {
-      name: '',
+      name: channel.name,
     },
     validateOnBlur: false,
     validationSchema: getChannelNameSchema(channelsNames),
     onSubmit,
   });
 
+  useEffect(() => {
+    if (input.current) {
+      input.current.focus();
+      input.current.select();
+    }
+  }, []);
+
   return (
     <Transition.Root
-      show={display}
+      show
       as={Fragment}
     >
       <Dialog
@@ -81,7 +106,7 @@ const AddChannelModal = ({ handleClose }) => {
                         as="h3"
                         className="font-bold text-lg"
                       >
-                        {t('modal.addChannel')}
+                        {t('modal.renameChannel')}
                       </Dialog.Title>
                     </div>
                   </div>
@@ -106,24 +131,30 @@ const AddChannelModal = ({ handleClose }) => {
                         className="relative block w-full appearance-none rounded border border-gray-300 px-3 py-2 bg-slate-600 outline-slate-300 placeholder-gray-400 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-md invalid:border-pink-400 invalid:text-pink-500"
                         name="name"
                         id="name"
-                        placeholder={t('form.channelName')}
+                        placeholder={t('form.channelNamePlaceholder')}
                         value={formik.values.name}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
+                        ref={input}
                         required
                       />
-                      {formik.touched.name && formik.errors.name ? (
+                      {formik.touched.name && (formik.errors.name || isAlreadyExists) ? (
                         <div className="absolute peer-invalid:visible text-pink-500 font-medium">
                           {t(`form.${formik.errors.name}`)}
                         </div>
                       ) : null}
+                      {isAlreadyExists && (
+                        <div className="absolute peer-invalid:visible text-pink-500 font-medium">
+                          {t('form.channelNameAlreadyExist')}
+                        </div>
+                      )}
                     </label>
                     <div className="mt-6">
                       <button
                         type="submit"
                         className="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 sm:mr-4 sm:w-auto"
                       >
-                        {t('modal.add')}
+                        {t('modal.confirm')}
                       </button>
                       <button
                         type="button"
@@ -144,4 +175,4 @@ const AddChannelModal = ({ handleClose }) => {
   );
 };
 
-export default AddChannelModal;
+export default RenameChannelModal;

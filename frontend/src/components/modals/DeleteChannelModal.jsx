@@ -1,25 +1,28 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/20/solid';
-import { useChatContext } from '../contexts';
-import { getCurrentChannel, changeCurrentChannel } from '../slices/channelsSlice';
-import toastsParams from '../toastParams';
+import { useChatContext } from '../../contexts';
+import { getCurrentChannel, changeCurrentChannel } from '../../slices/channelsSlice';
+import { actions as modalActions } from '../../slices/modalsSlice';
+import toastsParams from '../../toastParams';
 
-const DeleteChannelModal = ({ handleClose, channel }) => {
+const DeleteChannelModal = ({ channel }) => {
   const { deleteChannel } = useChatContext();
   const dispatch = useDispatch();
   const currentChannel = useSelector(getCurrentChannel);
   const { id } = currentChannel;
-  const [display, setDisplay] = useState(true);
   const { t } = useTranslation();
+
+  const handleClose = () => {
+    dispatch(modalActions.closeModal());
+  };
 
   const handleDelete = async () => {
     try {
       await deleteChannel(channel.id, () => {
-        setDisplay(false);
         toast.success(t('toastMessage.channelRemoved'), toastsParams.getDefaultParams());
         handleClose();
         if (id === channel.id) {
@@ -34,7 +37,7 @@ const DeleteChannelModal = ({ handleClose, channel }) => {
 
   return (
     <Transition.Root
-      show={display}
+      show
       as={Fragment}
     >
       <Dialog

@@ -1,40 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { PlusCircleIcon } from '@heroicons/react/20/solid';
 import { useTranslation } from 'react-i18next';
-import { changeCurrentChannel } from '../slices/channelsSlice';
-import AddChannelModal from './AddChannelModal';
-import DeleteChannelModal from './DeleteChannelModal';
-import RenameChannelModal from './RenameChannelModal';
 import ChannelItem from './ChannelItem';
-
-const renderModal = (modalParams, handleClose) => {
-  const { type, channel } = modalParams;
-  if (!type) {
-    return null;
-  }
-
-  const modals = {
-    add: AddChannelModal,
-    remove: DeleteChannelModal,
-    rename: RenameChannelModal,
-  };
-
-  const Modal = modals[modalParams.type];
-
-  return <Modal channel={channel} handleClose={handleClose} />;
-};
+import { changeCurrentChannel } from '../slices/channelsSlice';
+import { actions as modalActions } from '../slices/modalsSlice';
 
 const Channels = ({ channels, currentChannel }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-
-  const [modalParams, setModalParams] = useState({
-    type: null,
-    channel: null,
-  });
-
-  const handleClose = () => setModalParams({ type: null, channel: null });
 
   const handleChannel = (id) => (e) => {
     e.preventDefault();
@@ -48,7 +22,7 @@ const Channels = ({ channels, currentChannel }) => {
           <h2 className="font-bold text-lg text-gray-200 ml-3">{t('channels.channels')}</h2>
           <button
             type="button"
-            onClick={() => setModalParams({ type: 'add' })}
+            onClick={() => dispatch(modalActions.openModal({ type: 'addChannel' }))}
             className="ml-auto appearance-none p-0 m-0 relative"
           >
             <PlusCircleIcon className="h-6 w-6" />
@@ -64,12 +38,10 @@ const Channels = ({ channels, currentChannel }) => {
               channel={channel}
               currentChannel={currentChannel}
               handleChannel={handleChannel}
-              setModalParams={setModalParams}
             />
           </React.Fragment>
         ))}
       </ul>
-      {renderModal(modalParams, handleClose)}
     </div>
   );
 };
