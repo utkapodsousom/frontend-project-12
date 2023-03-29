@@ -154,7 +154,7 @@ const SignupForm = () => {
         {t('app.haveAccount')}
         &nbsp;
         <a
-          href="/login"
+          href={routes.pages.login()}
           className="text-sky-600 underline"
         >
           {t('label.login')}

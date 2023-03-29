@@ -126,7 +126,7 @@ const LoginForm = () => {
       </form>
       <p className="text-center mt-4">
         <a
-          href="/signup"
+          href={routes.pages.signup()}
           className="text-sky-600 underline"
         >
           {t('label.register')}
