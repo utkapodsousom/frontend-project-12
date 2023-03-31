@@ -3,8 +3,8 @@ import React, {
 } from 'react';
 
 const generateEmptyUser = () => ({
-  username: null,
-  token: null,
+  username: '',
+  token: '',
 });
 
 const getuserFromLocalStorage = () => {

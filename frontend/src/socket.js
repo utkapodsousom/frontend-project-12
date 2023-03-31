@@ -11,6 +11,11 @@ import {
 const initSocket = () => {
   const socket = io();
 
+  socket.on('connect_error', () => {
+    localStorage.setItem('username', '');
+    localStorage.setItem('userToken', '');
+  });
+
   socket.on('connect', () => {
     socket.on('newMessage', (payload) => {
       store.dispatch(addMessage(payload));
