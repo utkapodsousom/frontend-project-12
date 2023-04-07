@@ -49,9 +49,9 @@ const SignupForm = () => {
   }, []);
 
   return (
-    <div className="dark:bg-slate-700 max-w-md space-y-8 p-10 rounded-md drop-shadow-lg">
+    <div className="bg-slate-700 max-w-md space-y-8 p-10 rounded-md drop-shadow-lg">
       <div>
-        <h2 className="dark:text-white text-center text-3xl font-bold tracking-tight text-gray-900">
+        <h2 className="text-white text-center text-3xl font-bold tracking-tight">
           {t('label.register')}
         </h2>
       </div>
@@ -64,7 +64,7 @@ const SignupForm = () => {
           <div className="relative">
             <label
               htmlFor="username"
-              className="block text-md font-medium text-gray-700 dark:text-white"
+              className="block text-md font-medium text-white"
             >
               {t('form.username')}
               <input
@@ -94,7 +94,7 @@ const SignupForm = () => {
           <div className="relative mt-3">
             <label
               htmlFor="password"
-              className="block text-md font-medium text-gray-700 dark:text-white"
+              className="block text-md font-medium text-white"
             >
               {t('form.password')}
               <input
@@ -118,7 +118,7 @@ const SignupForm = () => {
           <div className="relative mt-3">
             <label
               htmlFor="passwordConfirm"
-              className="block text-md font-medium text-gray-700 dark:text-white"
+              className="block text-md font-medium text-white"
             >
               {t('form.passwordConfirmation')}
               <input

@@ -47,9 +47,9 @@ const LoginForm = () => {
   }, []);
 
   return (
-    <div className="dark:bg-slate-700 w-full max-w-md p-10 rounded-md drop-shadow-lg">
+    <div className="bg-slate-700 w-full max-w-md p-10 rounded-md drop-shadow-lg">
       <div>
-        <h2 className="dark:text-white text-center text-3xl font-bold tracking-tight text-gray-900">
+        <h2 className="text-white text-center text-3xl font-bold tracking-tight">
           {t('app.enterChat')}
         </h2>
       </div>
@@ -62,7 +62,7 @@ const LoginForm = () => {
           <div className="relative">
             <label
               htmlFor="username"
-              className="block text-md font-medium text-gray-700 dark:text-white"
+              className="block text-md font-medium text-white"
             >
               {t('form.nickname')}
               <input
@@ -86,7 +86,7 @@ const LoginForm = () => {
           <div className="relative mt-3">
             <label
               htmlFor="password"
-              className="block text-md font-medium text-gray-700 dark:text-white"
+              className="block text-md font-medium text-white"
             >
               {t('form.password')}
               <input

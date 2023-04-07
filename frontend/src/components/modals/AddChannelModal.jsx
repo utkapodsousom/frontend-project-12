@@ -101,7 +101,7 @@ const AddChannelModal = () => {
                   >
                     <label
                       htmlFor="name"
-                      className="block text-md font-medium text-gray-700 dark:text-white"
+                      className="block text-md font-medium text-white"
                     >
                       {t('channels.name')}
                       <input
