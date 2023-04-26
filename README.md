@@ -6,8 +6,6 @@
 ## Hexlet Chat
 > Live chat application, that allows users to chat with people around the world in real time. It features signing up, login, creating, renaming, and deleting channels.
 
-[DEMO PROJECT](https://frontend-project-12-production-b23b.up.railway.app/)
-
 ### Installation
 ```sh
 git clone https://github.com/utkapodsousom/frontend-project-12.git
